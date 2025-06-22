@@ -2,38 +2,45 @@
 
 ---
 
-<section>
-  <form id="weight-form">
-    <fieldset>
-      <legend>Add Weight Entry</legend>
-      <div>
-        <label for="weight">Weight:</label>
+<div class="card medium-padding">
+  <h5 class="primary-text">Add Weight Entry</h5>
+  
+  <form id="weight-form" class="medium-margin">
+    <div class="row wrap middle-align">
+      <div class="field label border s12 m6 l5 fill-space">
         <input 
           type="number" 
           id="weight" 
           name="weight" 
-          placeholder="Enter weight" 
           step="0.1" 
           min="0" 
           required
         />
+        <label for="weight">Weight</label>
+      </div>
 
-        <label for="weight-date">Date:</label>
+      <div class="field label border s12 m6 l5 fill-space small-margin-top medium-margin-left">
         <input 
           type="date" 
           id="weight-date" 
           name="date" 
-          value={new Date().toISOString().split('T')[0]} 
+          value={new Date().toISOString().split("T")[0]} 
           required
         />
-        
-        <button type="submit">Add</button>
+        <label for="weight-date">Date</label>
       </div>
-    </fieldset>
+      
+      <div class="s12 row middle-align right-align small-margin-top">
+        <button type="submit" class="primary round">
+          <i>add</i>
+          <span>Add Entry</span>
+        </button>
+      </div>
+    </div>
   </form>
   
-  <div id="submission-message" role="status"></div>
-</section>
+  <div id="submission-message" role="status" class="tertiary-text"></div>
+</div>
 
 <script>
   // Wait for the DOM to be fully loaded
@@ -108,63 +115,14 @@
       
       // Dispatch custom event for other components (like WeightList) to listen for
       const weightEvent = new CustomEvent("weightEntrySaved", {
-        detail: savedEntry
+        detail: savedEntry,
+        bubbles: true,
+        cancelable: true
       });
+      console.log("Dispatching weightEntrySaved event", savedEntry);
       window.dispatchEvent(weightEvent);
     });
   });
 </script>
 
-<style>
-  form {
-    margin: 1rem 0;
-  }
-  
-  fieldset {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 1rem;
-  }
-  
-  legend {
-    padding: 0 0.5rem;
-    font-weight: bold;
-  }
-  
-  fieldset > div {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  
-  label {
-    margin-right: 0.2rem;
-  }
-  
-  input {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 0.8rem;
-  }
-  
-  input[type="number"] {
-    width: 80px;
-  }
-  
-  button {
-    padding: 0.5rem 1rem;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-left: auto;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-</style>
+<!-- BeerCSS handles all the styling so we don't need custom CSS -->

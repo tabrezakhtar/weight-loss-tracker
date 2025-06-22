@@ -1,17 +1,20 @@
 ---
-import astroLogo from '../assets/astro.svg';
-import background from '../assets/background.svg';
-import WeightInput from './WeightInput.astro';
-import WeightList from './WeightList.astro';
-import Graph from './Graph.astro';
+import WeightInput from "./WeightInput.astro";
+import WeightList from "./WeightList.astro";
+import Graph from "./Graph.astro";
 ---
 
-<div>
-	<main>
-		<section>
+<div class="container layout column center">
+  <div class="s12 m8 l6 full-width">
+    <header class="row center-align center-justify large-padding">
+      <h1 class="primary-text">Weight Tracker</h1>
+      <span class="large-text">⚖️</span>
+    </header>
+    
+    <div>
       <Graph />
-			<WeightInput />
-			<WeightList
-		</section>
-	</main>
+      <WeightInput />
+      <WeightList />
+    </div>
+  </div>
 </div>

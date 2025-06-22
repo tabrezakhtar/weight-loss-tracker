@@ -2,13 +2,15 @@
 // Graph component - displays weight entries as a line chart using chart.js
 ---
 
-<section class="graph-container">
-  <h2>Weight Trend</h2>
+<div class="card large">
+  <h5 class="primary-text">Weight Trend</h5>
   <div class="canvas-container">
     <canvas id="weightChart"></canvas>
   </div>
-  <div id="no-chart-data" class="no-data-message">Add weight entries to see your progress chart</div>
-</section>
+  <div id="no-chart-data" class="middle-align center-align tertiary-text">
+    <p>Add weight entries to see your progress chart</p>
+  </div>
+</div>
 
 <script>
   import Chart from "chart.js/auto";
@@ -22,6 +24,20 @@
       console.error("Required DOM elements for chart not found");
       return;
     }
+    
+    // Function to convert hex to RGB
+    const hexToRgb = (hex) => {
+      // Remove # if present
+      hex = hex.replace(/^#/, "");
+      
+      // Parse the hex values
+      const bigint = parseInt(hex, 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      
+      return { r, g, b };
+    };
     
     // Chart instance reference
     let weightChart = null;
@@ -48,17 +64,21 @@
       const labels = entries.map(entry => formatChartDate(entry.date));
       const weightData = entries.map(entry => parseFloat(entry.weight));
       
+      // Get the primary color from BeerCSS
+      const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary') || '#2196F3';
+      const primaryColorRGB = hexToRgb(primaryColor.trim()) || { r: 33, g: 150, b: 243 };
+      
       return {
         labels,
         datasets: [
           {
             label: "Weight",
             data: weightData,
-            borderColor: "#4caf50",
-            backgroundColor: "rgba(76, 175, 80, 0.1)", 
+            borderColor: primaryColor || "#2196F3",
+            backgroundColor: `rgba(${primaryColorRGB.r}, ${primaryColorRGB.g}, ${primaryColorRGB.b}, 0.1)`,
             tension: 0.3,
             fill: true,
-            pointBackgroundColor: "#4caf50",
+            pointBackgroundColor: primaryColor || "#2196F3",
             pointRadius: 4,
             pointHoverRadius: 6
           }
@@ -150,28 +170,14 @@
 </script>
 
 <style>
-  .graph-container {
-    margin-top: 2rem;
-  }
-  
-  h2 {
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 0.5rem;
-  }
-  
   .canvas-container {
     height: 300px;
     width: 100%;
     position: relative;
+    padding: 1rem;
   }
   
-  .no-data-message {
-    text-align: center;
+  #no-chart-data {
     padding: 2rem;
-    color: #666;
-    font-style: italic;
-    background-color: #f9f9f9;
-    border-radius: 8px;
   }
 </style>

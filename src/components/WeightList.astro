@@ -2,22 +2,29 @@
 // WeightList component - displays all weight entries from localStorage
 ---
 
-<section class="weight-list-container">
-  <h2>Weight History</h2>
-  <p class="edit-instructions">Edit your weight entries directly and save changes</p>
-  <div id="no-entries-message">No weight entries found. Add your first entry above.</div>
-  <ul id="weight-entries-list"></ul>
-</section>
+<div class="card medium-padding medium-margin-top">
+  <h5 class="primary-text">Weight History</h5>
+  <p class="small tertiary-text">Edit your weight entries directly and save changes</p>
+  <div id="no-entries-message" class="tertiary-text medium-padding" style="display: block;">No weight entries found. Add your first entry above.</div>
+  <ul id="weight-entries-list" class="no-padding" style="display: none;"></ul>
+</div>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const entriesList = document.getElementById("weight-entries-list");
     const noEntriesMessage = document.getElementById("no-entries-message");
     
-    if (!entriesList || !noEntriesMessage) {
-      console.error("Required DOM elements not found");
+    if (!entriesList) {
+      console.error("Required DOM element not found: weight-entries-list");
       return;
     }
+    
+    if (!noEntriesMessage) {
+      console.error("Required DOM element not found: no-entries-message");
+      return;
+    }
+    
+    console.log("WeightList component initialized");
     
     // Function to format a date nicely
     const formatDate = (dateString) => {
@@ -29,48 +36,93 @@
     const createEntryElement = (entry) => {
       const listItem = document.createElement("li");
       listItem.dataset.id = entry.id;
+      listItem.classList.add("row", "wrap", "bordered", "medium-padding", "middle-align");
+      console.log("Created list item for entry:", entry.id);
       
       // Weight value as input field
       const weightContainer = document.createElement("div");
-      weightContainer.classList.add("entry-field");
+      weightContainer.classList.add("field", "label", "border", "s12", "m6", "l4", "fill-space");
       
       const weightInput = document.createElement("input");
       weightInput.type = "number";
       weightInput.step = "0.1";
       weightInput.min = "0";
       weightInput.value = entry.weight;
-      weightInput.classList.add("weight-input");
       weightInput.setAttribute("aria-label", "Weight value");
       
+      const weightLabel = document.createElement("label");
+      weightLabel.textContent = "Weight";
+      
       weightContainer.appendChild(weightInput);
+      weightContainer.appendChild(weightLabel);
       
       // Date as input field
       const dateContainer = document.createElement("div");
-      dateContainer.classList.add("entry-field");
+      dateContainer.classList.add("field", "label", "border", "s12", "m6", "l4", "fill-space");
+      // Responsive classes will be added by adjustResponsiveLayout function
       
       const dateInput = document.createElement("input");
       dateInput.type = "date";
       dateInput.value = entry.date;
-      dateInput.classList.add("date-input");
       dateInput.setAttribute("aria-label", "Date");
       
-      dateContainer.appendChild(dateInput);
+      const dateLabel = document.createElement("label");
+      dateLabel.textContent = "Date";
       
-      // Save button for the row
+      dateContainer.appendChild(dateInput);
+      dateContainer.appendChild(dateLabel);
+      
+      // Actions container
       const actionsContainer = document.createElement("div");
-      actionsContainer.classList.add("entry-actions");
+      actionsContainer.classList.add("s12", "l4", "row", "small-margin-top");
+      
+      // Helper function to add conditional margins and sizing
+      const adjustResponsiveLayout = () => {
+        if (window.innerWidth < 600) {
+          // For small screens
+          dateContainer.classList.add("full-width");
+          dateContainer.classList.add("small-margin-top");
+          dateContainer.classList.remove("medium-margin-left");
+          
+          weightContainer.classList.add("full-width");
+          
+          actionsContainer.classList.add("full-width");
+          actionsContainer.classList.add("center-align");
+          actionsContainer.classList.remove("right-align");
+        } else {
+          // For larger screens
+          dateContainer.classList.remove("full-width");
+          dateContainer.classList.remove("small-margin-top");
+          dateContainer.classList.add("medium-margin-left");
+          
+          weightContainer.classList.remove("full-width");
+          
+          actionsContainer.classList.remove("full-width");
+          actionsContainer.classList.remove("center-align");
+          actionsContainer.classList.add("right-align");
+        }
+      };
+      
+      // Apply responsive layout initially and on resize
+      adjustResponsiveLayout();
+      window.addEventListener("resize", adjustResponsiveLayout);
       
       const saveButton = document.createElement("button");
-      saveButton.classList.add("save-btn");
-      saveButton.textContent = "�";
+      saveButton.classList.add("circle", "small", "success", "medium-margin-left");
       saveButton.title = "Save changes";
       saveButton.setAttribute("aria-label", "Save changes");
+      const saveIcon = document.createElement("i");
+      saveIcon.textContent = "save";
+      saveButton.appendChild(saveIcon);
       
       const deleteButton = document.createElement("button");
-      deleteButton.classList.add("delete-btn");
-      deleteButton.textContent = "🗑️";
+      deleteButton.classList.add("circle", "small", "error", "medium-margin-left");
       deleteButton.title = "Delete entry";
       deleteButton.setAttribute("aria-label", "Delete entry");
+      
+      const deleteIcon = document.createElement("i");
+      deleteIcon.textContent = "delete";
+      deleteButton.appendChild(deleteIcon);
       
       // Add event listeners
       saveButton.addEventListener("click", () => {
@@ -127,6 +179,7 @@
       
       // Get all entries from localStorage
       const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+      console.log("Rendering weight entries:", entries);
       
       // Sort entries by date (newest first)
       entries.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -135,13 +188,16 @@
       if (entries.length === 0) {
         noEntriesMessage.style.display = "block";
         entriesList.style.display = "none";
+        console.log("No entries to display");
       } else {
         noEntriesMessage.style.display = "none";
         entriesList.style.display = "block";
         
         // Add each entry to the list
         entries.forEach(entry => {
-          entriesList.appendChild(createEntryElement(entry));
+          console.log("Creating element for entry:", entry);
+          const element = createEntryElement(entry);
+          entriesList.appendChild(element);
         });
       }
     };
@@ -190,6 +246,7 @@
     
     // Listen for the custom event from WeightInput component
     window.addEventListener("weightEntrySaved", (event) => {
+      console.log("Weight entry saved event received", event.detail);
       renderEntries();
     });
     
@@ -199,116 +256,27 @@
 </script>
 
 <style>
-  .weight-list-container {
-    margin-top: 2rem;
-  }
-  
-  h2 {
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 0.5rem;
-  }
-  
-  #no-entries-message {
-    font-style: italic;
-    color: #666;
-    padding: 1rem 0;
-  }
-  
   #weight-entries-list {
     list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
   }
   
   #weight-entries-list li {
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    width: 100%;
     display: flex;
-    align-items: center;
-    padding: 0.75rem;
-    border-bottom: 1px solid #eee;
+    flex-wrap: wrap;
   }
   
   #weight-entries-list li:hover {
-    background-color: #f9f9f9;
+    background-color: var(--background-hover);
   }
   
-  .entry-field {
-    padding: 0.25rem;
-  }
-  
-  .weight-value {
-    font-weight: bold;
-    font-size: 1.1rem;
-    min-width: 4rem;
-  }
-  
-  .weight-date {
-    color: #666;
-    margin-left: 0.5rem;
-  }
-  
-  .edit-instructions {
-    color: #666;
-    font-size: 0.9rem;
-    margin: 0.5rem 0;
-    font-style: italic;
-  }
-  
-  .entry-field input {
-    padding: 0.4rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    background-color: #fff;
-    transition: border-color 0.3s;
-  }
-  
-  .entry-field input:focus {
-    border-color: #4caf50;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-  }
-  
-  .weight-input {
-    width: 80px;
-    font-weight: bold;
-  }
-  
-  .date-input {
-    width: 140px;
-  }
-  
-  .entry-actions {
-    margin-left: auto;
-    display: flex;
-    gap: 0.5rem;
-  }
-  
-  .save-btn,
-  .delete-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    padding: 0.25rem;
-    border-radius: 50%;
-    height: 36px;
-    width: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-  }
-  
-  .save-btn {
-    background-color: #e6f4ea;
-  }
-  
-  .save-btn:hover {
-    background-color: #ccebd1;
-  }
-  
-  .delete-btn:hover {
-    background-color: #ffeeee;
+  .full-width {
+    width: 100% !important;
+    flex-basis: 100% !important;
+    max-width: 100% !important;
   }
 </style>
