@@ -14,18 +14,23 @@
     const entriesList = document.getElementById("weight-entries-list");
     const noEntriesMessage = document.getElementById("no-entries-message");
     if (!entriesList || !noEntriesMessage) return;
+    
+    // Listen for unit changes to update the display
+    window.addEventListener("weightUnitChanged", () => {
+      renderEntries();
+    });
 
     const createEntryElement = (entry) => {
       const listItem = document.createElement("li");
       listItem.dataset.id = entry.id;
       listItem.className = "flex flex-col sm:flex-row items-center gap-2 bg-stone-50 rounded-lg p-3 shadow border border-slate-200";
 
-      // Weight input
+      // Weight input with unit
       const weightDiv = document.createElement("div");
       weightDiv.className = "flex flex-col w-full sm:w-1/3";
       const weightLabel = document.createElement("label");
       weightLabel.className = "text-xs text-slate-500 mb-1";
-      weightLabel.textContent = "Weight";
+      weightLabel.textContent = `Weight (${entry.unit || "kg"})`;
       const weightInput = document.createElement("input");
       weightInput.type = "number";
       weightInput.step = "0.1";
@@ -93,7 +98,12 @@
     const renderEntries = () => {
       entriesList.innerHTML = "";
       const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
-      entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+      entries.sort((a, b) => {
+        // Sort by timestamp in descending order (newest first)
+        const timestampA = a.timestamp ? new Date(a.timestamp) : new Date(a.date);
+        const timestampB = b.timestamp ? new Date(b.timestamp) : new Date(b.date);
+        return timestampB - timestampA;
+      });
       if (entries.length === 0) {
         noEntriesMessage.style.display = "block";
         entriesList.style.display = "none";
@@ -123,3 +133,4 @@
     renderEntries();
   });
 </script>
+

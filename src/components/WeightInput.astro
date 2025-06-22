@@ -7,7 +7,7 @@
   <form id="weight-form" class="w-full flex flex-col gap-4">
     <div class="flex flex-col sm:flex-row gap-4 w-full items-end">
       <div class="flex flex-col w-full sm:w-1/2">
-        <label for="weight" class="text-slate-600 font-medium mb-1">Weight</label>
+        <label for="weight" id="weight-label" class="text-slate-600 font-medium mb-1">Weight (kg)</label>
         <input 
           type="number" 
           id="weight" 
@@ -42,11 +42,26 @@
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("weight-form");
     const messageElement = document.getElementById("submission-message");
+    const weightLabel = document.getElementById("weight-label");
     
-    if (!form || !messageElement) {
+    if (!form || !messageElement || !weightLabel) {
       console.error("Required DOM elements not found");
       return;
     }
+    
+    // Update the weight label with the current unit
+    const updateUnitLabel = () => {
+      const currentUnit = localStorage.getItem("weightUnit") || "kg";
+      weightLabel.textContent = `Weight (${currentUnit})`;
+    };
+    
+    // Initial label update
+    updateUnitLabel();
+    
+    // Listen for unit changes
+    window.addEventListener("weightUnitChanged", () => {
+      updateUnitLabel();
+    });
     
     // Function to generate a unique ID
     const generateId = () => {
@@ -58,11 +73,13 @@
       // Get existing entries from localStorage or initialize empty array
       const existingEntries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
       
-      // Add new entry with unique ID
+      // Add new entry with unique ID and current unit
+      const currentUnit = localStorage.getItem("weightUnit") || "kg";
       const newEntry = {
         id: generateId(),
         weight: entry.weight,
         date: entry.date,
+        unit: currentUnit,
         timestamp: new Date().toISOString()
       };
       

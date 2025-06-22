@@ -50,6 +50,11 @@
       return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
     };
     
+    // Function to get the current weight unit
+    const getCurrentUnit = () => {
+      return localStorage.getItem("weightUnit") || "kg";
+    };
+
     // Function to get data from localStorage and prepare it for the chart
     const prepareChartData = () => {
       // Get weight entries from localStorage
@@ -66,21 +71,24 @@
       const labels = entries.map(entry => formatChartDate(entry.date));
       const weightData = entries.map(entry => parseFloat(entry.weight));
       
-      // Get the primary color from BeerCSS
-      const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary') || '#2196F3';
+      // Get the current weight unit for the label
+      const currentUnit = getCurrentUnit();
+      
+      // Primary color
+      const primaryColor = "#2196F3";
       const primaryColorRGB = hexToRgb(primaryColor.trim()) || { r: 33, g: 150, b: 243 };
       
       return {
         labels,
         datasets: [
           {
-            label: "Weight",
+            label: `Weight (${currentUnit})`,
             data: weightData,
-            borderColor: primaryColor || "#2196F3",
+            borderColor: primaryColor,
             backgroundColor: `rgba(${primaryColorRGB.r}, ${primaryColorRGB.g}, ${primaryColorRGB.b}, 0.1)`,
             tension: 0.3,
             fill: true,
-            pointBackgroundColor: primaryColor || "#2196F3",
+            pointBackgroundColor: primaryColor,
             pointRadius: 4,
             pointHoverRadius: 6
           }
@@ -115,7 +123,7 @@
               beginAtZero: false,
               title: {
                 display: true,
-                text: "Weight"
+                text: `Weight (${getCurrentUnit()})`
               }
             },
             x: {
@@ -140,6 +148,11 @@
                   // Sort entries as we did for the chart
                   entries.sort((a, b) => new Date(a.date) - new Date(b.date));
                   return new Date(entries[index].date).toLocaleDateString();
+                },
+                label: (item) => {
+                  // Show weight with the current unit in tooltip
+                  const currentUnit = getCurrentUnit();
+                  return `${item.formattedValue} ${currentUnit}`;
                 }
               }
             }
@@ -168,5 +181,24 @@
     
     // Custom event for when entries are deleted (from WeightList)
     window.addEventListener("weightEntryDeleted", updateChart);
+    
+    // Listen for unit changes and update the chart
+    window.addEventListener("weightUnitChanged", (e) => {
+      console.log("Unit changed to", e.detail.newUnit, "- updating chart");
+      if (weightChart) {
+        // Update y-axis title with new unit
+        weightChart.options.scales.y.title.text = `Weight (${e.detail.newUnit})`;
+        
+        // Update dataset label with new unit
+        if (weightChart.data.datasets.length > 0) {
+          weightChart.data.datasets[0].label = `Weight (${e.detail.newUnit})`;
+        }
+        
+        weightChart.update();
+      } else {
+        // If chart hasn't been created yet, call updateChart
+        updateChart();
+      }
+    });
   });
 </script>

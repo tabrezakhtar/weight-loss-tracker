@@ -1,0 +1,125 @@
+---
+// Units component - displays and handles unit conversion between kg, lbs, and stones
+---
+
+<div class="w-full bg-white rounded-xl shadow p-4 mb-6 flex flex-col gap-2">
+  <h2 class="text-lg font-semibold text-slate-700 flex items-center gap-2">⚖️ Weight Unit</h2>
+  <div class="flex flex-row gap-4 justify-start">
+    <label class="flex items-center cursor-pointer">
+      <input type="radio" name="weight-unit" value="kg" class="sr-only peer" checked />
+      <div class="flex items-center justify-center px-4 py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-500 peer-checked:text-white font-medium">
+        kg
+      </div>
+    </label>
+    <label class="flex items-center cursor-pointer">
+      <input type="radio" name="weight-unit" value="lbs" class="sr-only peer" />
+      <div class="flex items-center justify-center px-4 py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-500 peer-checked:text-white font-medium">
+        lbs
+      </div>
+    </label>
+    <label class="flex items-center cursor-pointer">
+      <input type="radio" name="weight-unit" value="st" class="sr-only peer" />
+      <div class="flex items-center justify-center px-4 py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-500 peer-checked:text-white font-medium">
+        stones
+      </div>
+    </label>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const unitRadios = document.querySelectorAll('input[name="weight-unit"]');
+    
+    // Conversion factors between different units
+    const conversionFactors = {
+      kg: { 
+        lbs: 2.20462, 
+        st: 0.157473 
+      },
+      lbs: { 
+        kg: 0.453592, 
+        st: 0.0714286 
+      },
+      st: { 
+        kg: 6.35029, 
+        lbs: 14 
+      }
+    };
+    
+    // Get the current unit or set default to kg
+    const getCurrentUnit = () => {
+      return localStorage.getItem("weightUnit") || "kg";
+    };
+    
+    // Set the initial radio button based on localStorage
+    const currentUnit = getCurrentUnit();
+    unitRadios.forEach(radio => {
+      if (radio.value === currentUnit) {
+        radio.checked = true;
+      }
+    });
+    
+    // Convert a weight from one unit to another
+    const convertWeight = (weight, fromUnit, toUnit) => {
+      if (fromUnit === toUnit) return weight;
+      
+      // If direct conversion is available
+      if (conversionFactors[fromUnit] && conversionFactors[fromUnit][toUnit]) {
+        return weight * conversionFactors[fromUnit][toUnit];
+      }
+      
+      // Fallback to converting through kg
+      if (fromUnit !== "kg" && toUnit !== "kg") {
+        const inKg = weight * conversionFactors[fromUnit]["kg"];
+        return inKg * conversionFactors["kg"][toUnit];
+      }
+      
+      return weight; // Fallback if conversion is not possible
+    };
+    
+    // Update all weight entries in localStorage
+    const updateAllWeightEntries = (newUnit) => {
+      const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+      const oldUnit = getCurrentUnit();
+      
+      const updatedEntries = entries.map(entry => {
+        const entryUnit = entry.unit || oldUnit;
+        const weightInOldUnit = parseFloat(entry.weight);
+        
+        // Convert weight from old unit to new unit
+        const weightInNewUnit = convertWeight(weightInOldUnit, entryUnit, newUnit);
+        
+        return {
+          ...entry,
+          weight: weightInNewUnit.toFixed(1),
+          unit: newUnit
+        };
+      });
+      
+      localStorage.setItem("weightUnit", newUnit);
+      localStorage.setItem("weightEntries", JSON.stringify(updatedEntries));
+      
+      // Dispatch event for other components to update
+      const event = new CustomEvent("weightUnitChanged", {
+        detail: { oldUnit, newUnit },
+        bubbles: true
+      });
+      window.dispatchEvent(event);
+    };
+    
+    // Handle radio button changes
+    unitRadios.forEach(radio => {
+      radio.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          const newUnit = e.target.value;
+          updateAllWeightEntries(newUnit);
+        }
+      });
+    });
+    
+    // Initialize weightUnit in localStorage if not set
+    if (!localStorage.getItem("weightUnit")) {
+      localStorage.setItem("weightUnit", "kg");
+    }
+  });
+</script>
