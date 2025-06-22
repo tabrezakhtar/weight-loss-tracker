@@ -1,0 +1,30 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "javascript.format.semicolons": "remove",
+  "javascript.preferences.quoteStyle": "double",
+  "typescript.preferences.quoteStyle": "double",
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  },
+  "emmet.includeLanguages": {
+    "astro": "html"
+  },
+  "eslint.validate": [
+    "javascript",
+    "astro"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.suggest.autoImports": true,
+  "typescript.suggest.autoImports": true,
+  "typescript.validate.enable": false,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true
+  }
+}

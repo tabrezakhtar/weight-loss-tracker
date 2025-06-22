@@ -1,0 +1,314 @@
+---
+// WeightList component - displays all weight entries from localStorage
+---
+
+<section class="weight-list-container">
+  <h2>Weight History</h2>
+  <p class="edit-instructions">Edit your weight entries directly and save changes</p>
+  <div id="no-entries-message">No weight entries found. Add your first entry above.</div>
+  <ul id="weight-entries-list"></ul>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const entriesList = document.getElementById("weight-entries-list");
+    const noEntriesMessage = document.getElementById("no-entries-message");
+    
+    if (!entriesList || !noEntriesMessage) {
+      console.error("Required DOM elements not found");
+      return;
+    }
+    
+    // Function to format a date nicely
+    const formatDate = (dateString) => {
+      const options = { year: "numeric", month: "short", day: "numeric" };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+    
+    // Function to create an entry list item
+    const createEntryElement = (entry) => {
+      const listItem = document.createElement("li");
+      listItem.dataset.id = entry.id;
+      
+      // Weight value as input field
+      const weightContainer = document.createElement("div");
+      weightContainer.classList.add("entry-field");
+      
+      const weightInput = document.createElement("input");
+      weightInput.type = "number";
+      weightInput.step = "0.1";
+      weightInput.min = "0";
+      weightInput.value = entry.weight;
+      weightInput.classList.add("weight-input");
+      weightInput.setAttribute("aria-label", "Weight value");
+      
+      weightContainer.appendChild(weightInput);
+      
+      // Date as input field
+      const dateContainer = document.createElement("div");
+      dateContainer.classList.add("entry-field");
+      
+      const dateInput = document.createElement("input");
+      dateInput.type = "date";
+      dateInput.value = entry.date;
+      dateInput.classList.add("date-input");
+      dateInput.setAttribute("aria-label", "Date");
+      
+      dateContainer.appendChild(dateInput);
+      
+      // Save button for the row
+      const actionsContainer = document.createElement("div");
+      actionsContainer.classList.add("entry-actions");
+      
+      const saveButton = document.createElement("button");
+      saveButton.classList.add("save-btn");
+      saveButton.textContent = "�";
+      saveButton.title = "Save changes";
+      saveButton.setAttribute("aria-label", "Save changes");
+      
+      const deleteButton = document.createElement("button");
+      deleteButton.classList.add("delete-btn");
+      deleteButton.textContent = "🗑️";
+      deleteButton.title = "Delete entry";
+      deleteButton.setAttribute("aria-label", "Delete entry");
+      
+      // Add event listeners
+      saveButton.addEventListener("click", () => {
+        const newWeight = weightInput.value;
+        const newDate = dateInput.value;
+        
+        if (!newWeight || !newDate) {
+          alert("Weight and date cannot be empty");
+          return;
+        }
+        
+        const hasChanges = 
+          newWeight !== entry.weight || 
+          newDate !== entry.date;
+          
+        if (hasChanges) {
+          updateEntry(entry.id, {
+            weight: newWeight,
+            date: newDate
+          });
+        }
+      });
+      
+      deleteButton.addEventListener("click", () => deleteEntry(entry.id));
+      
+      // Add real-time saving for inputs
+      weightInput.addEventListener("change", () => {
+        if (weightInput.value) {
+          updateEntry(entry.id, { weight: weightInput.value });
+        }
+      });
+      
+      dateInput.addEventListener("change", () => {
+        if (dateInput.value) {
+          updateEntry(entry.id, { date: dateInput.value });
+        }
+      });
+      
+      actionsContainer.appendChild(saveButton);
+      actionsContainer.appendChild(deleteButton);
+      
+      // Add all elements to list item
+      listItem.appendChild(weightContainer);
+      listItem.appendChild(dateContainer);
+      listItem.appendChild(actionsContainer);
+      
+      return listItem;
+    };
+    
+    // Function to render all entries
+    const renderEntries = () => {
+      // Clear the current list
+      entriesList.innerHTML = "";
+      
+      // Get all entries from localStorage
+      const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+      
+      // Sort entries by date (newest first)
+      entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      // Show or hide the no entries message
+      if (entries.length === 0) {
+        noEntriesMessage.style.display = "block";
+        entriesList.style.display = "none";
+      } else {
+        noEntriesMessage.style.display = "none";
+        entriesList.style.display = "block";
+        
+        // Add each entry to the list
+        entries.forEach(entry => {
+          entriesList.appendChild(createEntryElement(entry));
+        });
+      }
+    };
+    
+    // Function to update an entry - accepts either a single field update or multiple fields
+    const updateEntry = (id, updates) => {
+      // Get current entries
+      const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+      
+      // Find and update the specific entry
+      const updatedEntries = entries.map(entry => {
+        if (entry.id === id) {
+          return {
+            ...entry,
+            ...updates,
+            timestamp: new Date().toISOString() // Update timestamp to indicate it was edited
+          };
+        }
+        return entry;
+      });
+      
+      // Save back to localStorage
+      localStorage.setItem("weightEntries", JSON.stringify(updatedEntries));
+      
+      // Re-render the list
+      renderEntries();
+    };
+    
+    // Function to delete an entry
+    const deleteEntry = (id) => {
+      // Get current entries
+      const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+      
+      // Filter out the entry with the matching ID
+      const updatedEntries = entries.filter(entry => entry.id !== id);
+      
+      // Save back to localStorage
+      localStorage.setItem("weightEntries", JSON.stringify(updatedEntries));
+      
+      // Re-render the list
+      renderEntries();
+      
+      // Dispatch event for the graph to update
+      window.dispatchEvent(new CustomEvent("weightEntryDeleted"));
+    };
+    
+    // Listen for the custom event from WeightInput component
+    window.addEventListener("weightEntrySaved", (event) => {
+      renderEntries();
+    });
+    
+    // Initial render
+    renderEntries();
+  });
+</script>
+
+<style>
+  .weight-list-container {
+    margin-top: 2rem;
+  }
+  
+  h2 {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+  }
+  
+  #no-entries-message {
+    font-style: italic;
+    color: #666;
+    padding: 1rem 0;
+  }
+  
+  #weight-entries-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #weight-entries-list li {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  #weight-entries-list li:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .entry-field {
+    padding: 0.25rem;
+  }
+  
+  .weight-value {
+    font-weight: bold;
+    font-size: 1.1rem;
+    min-width: 4rem;
+  }
+  
+  .weight-date {
+    color: #666;
+    margin-left: 0.5rem;
+  }
+  
+  .edit-instructions {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    font-style: italic;
+  }
+  
+  .entry-field input {
+    padding: 0.4rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: border-color 0.3s;
+  }
+  
+  .entry-field input:focus {
+    border-color: #4caf50;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  }
+  
+  .weight-input {
+    width: 80px;
+    font-weight: bold;
+  }
+  
+  .date-input {
+    width: 140px;
+  }
+  
+  .entry-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .save-btn,
+  .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.25rem;
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  
+  .save-btn {
+    background-color: #e6f4ea;
+  }
+  
+  .save-btn:hover {
+    background-color: #ccebd1;
+  }
+  
+  .delete-btn:hover {
+    background-color: #ffeeee;
+  }
+</style>

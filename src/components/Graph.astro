@@ -1,0 +1,177 @@
+---
+// Graph component - displays weight entries as a line chart using chart.js
+---
+
+<section class="graph-container">
+  <h2>Weight Trend</h2>
+  <div class="canvas-container">
+    <canvas id="weightChart"></canvas>
+  </div>
+  <div id="no-chart-data" class="no-data-message">Add weight entries to see your progress chart</div>
+</section>
+
+<script>
+  import Chart from "chart.js/auto";
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    // Elements
+    const chartCanvas = document.getElementById("weightChart");
+    const noDataMessage = document.getElementById("no-chart-data");
+    
+    if (!chartCanvas || !noDataMessage) {
+      console.error("Required DOM elements for chart not found");
+      return;
+    }
+    
+    // Chart instance reference
+    let weightChart = null;
+    
+    // Function to format dates for display on chart
+    const formatChartDate = (dateString) => {
+      const date = new Date(dateString);
+      return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    };
+    
+    // Function to get data from localStorage and prepare it for the chart
+    const prepareChartData = () => {
+      // Get weight entries from localStorage
+      const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+      
+      if (entries.length === 0) {
+        return null;
+      }
+      
+      // Sort entries by date (oldest first for the chart)
+      entries.sort((a, b) => new Date(a.date) - new Date(b.date));
+      
+      // Prepare data arrays for chart
+      const labels = entries.map(entry => formatChartDate(entry.date));
+      const weightData = entries.map(entry => parseFloat(entry.weight));
+      
+      return {
+        labels,
+        datasets: [
+          {
+            label: "Weight",
+            data: weightData,
+            borderColor: "#4caf50",
+            backgroundColor: "rgba(76, 175, 80, 0.1)", 
+            tension: 0.3,
+            fill: true,
+            pointBackgroundColor: "#4caf50",
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }
+        ]
+      };
+    };
+    
+    // Function to create or update the chart
+    const updateChart = () => {
+      const data = prepareChartData();
+      
+      if (!data) {
+        // No data available, show message and hide chart
+        noDataMessage.style.display = "block";
+        chartCanvas.style.display = "none";
+        return;
+      }
+      
+      // Data available, hide message and show chart
+      noDataMessage.style.display = "none";
+      chartCanvas.style.display = "block";
+      
+      // Chart configuration
+      const config = {
+        type: "line",
+        data: data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: false,
+              title: {
+                display: true,
+                text: "Weight"
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Date"
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                title: (items) => {
+                  if (!items.length) return "";
+                  const index = items[0].dataIndex;
+                  const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+                  if (entries.length <= index) return "";
+                  
+                  // Sort entries as we did for the chart
+                  entries.sort((a, b) => new Date(a.date) - new Date(b.date));
+                  return new Date(entries[index].date).toLocaleDateString();
+                }
+              }
+            }
+          },
+          interaction: {
+            mode: "index",
+            intersect: false
+          }
+        }
+      };
+      
+      // Create or update chart
+      if (weightChart) {
+        weightChart.data = data;
+        weightChart.update();
+      } else {
+        weightChart = new Chart(chartCanvas, config);
+      }
+    };
+    
+    // Initial chart update
+    updateChart();
+    
+    // Listen for changes in weight entries
+    window.addEventListener("weightEntrySaved", updateChart);
+    
+    // Custom event for when entries are deleted (from WeightList)
+    window.addEventListener("weightEntryDeleted", updateChart);
+  });
+</script>
+
+<style>
+  .graph-container {
+    margin-top: 2rem;
+  }
+  
+  h2 {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+  }
+  
+  .canvas-container {
+    height: 300px;
+    width: 100%;
+    position: relative;
+  }
+  
+  .no-data-message {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-style: italic;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+</style>
