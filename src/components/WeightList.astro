@@ -2,11 +2,11 @@
 // WeightList component - displays all weight entries from localStorage
 ---
 
-<div class="w-full bg-white rounded-xl shadow p-6 mt-6 flex flex-col gap-4">
+<div class="w-full bg-white rounded-xl shadow p-6 mt-6 flex flex-col gap-4 flex-1 min-h-0">
   <h2 class="text-xl font-semibold text-slate-700 flex items-center gap-2">📜 Weight History</h2>
   <p class="text-sm text-slate-500">Edit your weight entries directly and save changes</p>
   <div id="no-entries-message" class="text-slate-400 py-4 text-center">No weight entries found. Add your first entry above.</div>
-  <ul id="weight-entries-list" class="flex flex-col gap-3"></ul>
+  <ul id="weight-entries-list" class="flex flex-col gap-3 overflow-y-auto pr-1 flex-1"></ul>
 </div>
 
 <script>
@@ -18,7 +18,7 @@
     const createEntryElement = (entry) => {
       const listItem = document.createElement("li");
       listItem.dataset.id = entry.id;
-      listItem.className = "flex flex-col sm:flex-row items-center gap-2 bg-slate-50 rounded-lg p-3 shadow border border-slate-200";
+      listItem.className = "flex flex-col sm:flex-row items-center gap-2 bg-stone-50 rounded-lg p-3 shadow border border-slate-200";
 
       // Weight input
       const weightDiv = document.createElement("div");
@@ -31,7 +31,7 @@
       weightInput.step = "0.1";
       weightInput.min = "0";
       weightInput.value = entry.weight;
-      weightInput.className = "input input-bordered w-full px-2 py-1 rounded border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400";
+      weightInput.className = "input input-bordered w-full px-2 py-1 rounded border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white";
       weightDiv.appendChild(weightLabel);
       weightDiv.appendChild(weightInput);
 
@@ -44,7 +44,7 @@
       const dateInput = document.createElement("input");
       dateInput.type = "date";
       dateInput.value = entry.date;
-      dateInput.className = "input input-bordered w-full px-2 py-1 rounded border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400";
+      dateInput.className = "input input-bordered w-full px-2 py-1 rounded border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white";
       dateDiv.appendChild(dateLabel);
       dateDiv.appendChild(dateInput);
 
@@ -53,12 +53,12 @@
       actionsDiv.className = "flex flex-col gap-2 w-full sm:w-1/3 justify-end items-center mt-2 sm:mt-0";
       const saveBtn = document.createElement("button");
       saveBtn.type = "button";
-      saveBtn.className = "flex items-center gap-1 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg font-semibold transition-all duration-150";
+      saveBtn.className = "flex items-center gap-1 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg font-semibold transition-all duration-150 w-24 justify-center";
       saveBtn.title = "Save changes";
       saveBtn.innerHTML = "<span class='hidden sm:inline'>Save</span>";
       const deleteBtn = document.createElement("button");
       deleteBtn.type = "button";
-      deleteBtn.className = "flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg font-semibold transition-all duration-150";
+      deleteBtn.className = "flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg font-semibold transition-all duration-150 w-24 justify-center";
       deleteBtn.title = "Delete entry";
       deleteBtn.innerHTML = "<span class='hidden sm:inline'>Delete</span>";
 
@@ -70,7 +70,11 @@
           updateEntry(entry.id, { weight: newWeight, date: newDate });
         }
       });
-      deleteBtn.addEventListener("click", () => deleteEntry(entry.id));
+      deleteBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete this entry?")) {
+          deleteEntry(entry.id);
+        }
+      });
       weightInput.addEventListener("change", () => {
         if (weightInput.value) updateEntry(entry.id, { weight: weightInput.value });
       });
