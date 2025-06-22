@@ -5,3 +5,21 @@ html,
 body {
   font-family: 'Cascadia Code', monospace;
 }
+
+body {
+  position: relative;
+  background-repeat: repeat;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/tile.png');
+  background-repeat: repeat;
+  opacity: 0.1;
+  z-index: -1;
+}
