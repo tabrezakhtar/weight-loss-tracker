@@ -2,11 +2,11 @@
 // WeightList component - displays all weight entries from localStorage
 ---
 
-<div class="w-full bg-white rounded-xl border-2 border-slate-200 p-6 mt-6 flex flex-col gap-4 flex-1 min-h-0">
-  <h2 class="text-xl font-semibold text-slate-700 flex items-center gap-2">🍩 Weight History</h2>
-  <p class="text-sm text-slate-500">Edit your weight entries directly and save changes</p>
-  <div id="no-entries-message" class="text-slate-400 py-4 text-center">No weight entries found. Add your first entry above.</div>
-  <ul id="weight-entries-list" class="flex flex-col gap-3 overflow-y-auto pr-1 flex-1"></ul>
+<div class="w-full bg-white rounded-xl border-2 border-slate-200 p-3 sm:p-4 md:p-6 mt-2 sm:mt-4 md:mt-6 flex flex-col gap-2 sm:gap-4 flex-1 min-h-0">
+  <h2 class="text-base sm:text-lg md:text-xl font-semibold text-slate-700 flex items-center gap-1 sm:gap-2">🍩 Weight History</h2>
+  <p class="text-xs sm:text-sm text-slate-500">Edit your weight entries directly and save changes</p>
+  <div id="no-entries-message" class="text-slate-400 py-2 sm:py-4 text-center text-xs sm:text-sm">No weight entries found. Add your first entry above.</div>
+  <ul id="weight-entries-list" class="flex flex-col gap-2 sm:gap-3 overflow-y-auto pr-1 flex-1"></ul>
 </div>
 
 <script>
@@ -23,20 +23,20 @@
     const createEntryElement = (entry) => {
       const listItem = document.createElement("li");
       listItem.dataset.id = entry.id;
-      listItem.className = "flex flex-col sm:flex-row items-center gap-2 bg-stone-50 rounded-lg p-3 shadow border border-slate-200";
+      listItem.className = "flex flex-col sm:flex-row items-center gap-2 bg-stone-50 rounded-lg p-2 sm:p-3 shadow border border-slate-200";
 
       // Weight input with unit
       const weightDiv = document.createElement("div");
       weightDiv.className = "flex flex-col w-full sm:w-1/3";
       const weightLabel = document.createElement("label");
-      weightLabel.className = "text-xs text-slate-500 mb-1";
+      weightLabel.className = "text-xs text-slate-500 mb-0.5 sm:mb-1";
       weightLabel.textContent = `Weight (${entry.unit || "kg"})`;
       const weightInput = document.createElement("input");
       weightInput.type = "number";
       weightInput.step = "0.1";
       weightInput.min = "0";
       weightInput.value = entry.weight;
-      weightInput.className = "input input-bordered w-full px-2 py-1 rounded border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white";
+      weightInput.className = "input input-bordered w-full px-2 py-1 text-xs sm:text-sm rounded border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white";
       weightDiv.appendChild(weightLabel);
       weightDiv.appendChild(weightInput);
 
@@ -44,28 +44,28 @@
       const dateDiv = document.createElement("div");
       dateDiv.className = "flex flex-col w-full sm:w-1/3";
       const dateLabel = document.createElement("label");
-      dateLabel.className = "text-xs text-slate-500 mb-1";
+      dateLabel.className = "text-xs text-slate-500 mb-0.5 sm:mb-1";
       dateLabel.textContent = "Date";
       const dateInput = document.createElement("input");
       dateInput.type = "date";
       dateInput.value = entry.date;
-      dateInput.className = "input input-bordered w-full px-2 py-1 rounded border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white";
+      dateInput.className = "input input-bordered w-full px-2 py-1 text-xs sm:text-sm rounded border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white";
       dateDiv.appendChild(dateLabel);
       dateDiv.appendChild(dateInput);
 
       // Actions
       const actionsDiv = document.createElement("div");
-      actionsDiv.className = "flex flex-col gap-2 w-full sm:w-1/3 justify-end items-center mt-2 sm:mt-0";
+      actionsDiv.className = "flex flex-row sm:flex-col gap-2 w-full sm:w-1/3 justify-center sm:justify-end items-center mt-2 sm:mt-0";
       const saveBtn = document.createElement("button");
       saveBtn.type = "button";
-      saveBtn.className = "flex items-center gap-1 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg font-semibold transition-all duration-150 w-24 justify-center";
+      saveBtn.className = "flex items-center gap-1 bg-green-500 hover:bg-green-600 text-white px-2 sm:px-3 py-1 rounded-lg font-semibold transition-all duration-150 w-16 sm:w-20 text-xs sm:text-sm justify-center";
       saveBtn.title = "Save changes";
-      saveBtn.innerHTML = "<span class='hidden sm:inline'>Save</span>";
+      saveBtn.innerHTML = "Save";
       const deleteBtn = document.createElement("button");
       deleteBtn.type = "button";
-      deleteBtn.className = "flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg font-semibold transition-all duration-150 w-24 justify-center";
+      deleteBtn.className = "flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-2 sm:px-3 py-1 rounded-lg font-semibold transition-all duration-150 w-16 sm:w-20 text-xs sm:text-sm justify-center";
       deleteBtn.title = "Delete entry";
-      deleteBtn.innerHTML = "<span class='hidden sm:inline'>Delete</span>";
+      deleteBtn.innerHTML = "Delete";
 
       saveBtn.addEventListener("click", () => {
         const newWeight = weightInput.value;

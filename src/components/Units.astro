@@ -2,24 +2,24 @@
 // Units component - displays and handles unit conversion between kg, lbs, and stones
 ---
 
-<div class="w-full bg-white rounded-xl border-2 border-slate-200 p-4 mb-6 flex flex-col gap-2">
-  <h2 class="text-lg font-semibold text-slate-700 flex items-center gap-2">🍔 Weight Unit</h2>
-  <div class="flex flex-row gap-4 justify-start">
+<div class="w-full bg-white rounded-xl border-2 border-slate-200 p-3 sm:p-4 mb-3 sm:mb-6 flex flex-col gap-1 sm:gap-2">
+  <h2 class="text-base sm:text-lg font-semibold text-slate-700 flex items-center gap-1 sm:gap-2">🍔 Weight Unit</h2>
+  <div class="flex flex-row gap-2 sm:gap-4 justify-center sm:justify-start">
     <label class="flex items-center cursor-pointer">
       <input type="radio" name="weight-unit" value="kg" class="sr-only peer" checked />
-      <div class="flex items-center justify-center px-4 py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-500 peer-checked:text-white font-medium">
+      <div class="flex items-center justify-center px-3 sm:px-4 py-1 sm:py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-500 peer-checked:text-white font-medium text-sm sm:text-base">
         kg
       </div>
     </label>
     <label class="flex items-center cursor-pointer">
       <input type="radio" name="weight-unit" value="lbs" class="sr-only peer" />
-      <div class="flex items-center justify-center px-4 py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-500 peer-checked:text-white font-medium">
+      <div class="flex items-center justify-center px-3 sm:px-4 py-1 sm:py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-500 peer-checked:text-white font-medium text-sm sm:text-base">
         lbs
       </div>
     </label>
     <label class="flex items-center cursor-pointer">
       <input type="radio" name="weight-unit" value="st" class="sr-only peer" />
-      <div class="flex items-center justify-center px-4 py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-500 peer-checked:text-white font-medium">
+      <div class="flex items-center justify-center px-3 sm:px-4 py-1 sm:py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-500 peer-checked:text-white font-medium text-sm sm:text-base">
         stones
       </div>
     </label>
