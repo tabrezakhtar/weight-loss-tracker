@@ -2,12 +2,12 @@
 
 ---
 
-<div class="card medium-padding">
-  <h5 class="primary-text">Add Weight Entry</h5>
-  
-  <form id="weight-form" class="medium-margin">
-    <div class="row wrap middle-align">
-      <div class="field label border s12 m6 l5 fill-space">
+<div class="w-full bg-white rounded-xl shadow p-6 flex flex-col gap-4">
+  <h2 class="text-xl font-semibold text-slate-700 flex items-center gap-2">➕ Add Weight Entry</h2>
+  <form id="weight-form" class="w-full flex flex-col gap-4">
+    <div class="flex flex-col sm:flex-row gap-4 w-full items-end">
+      <div class="flex flex-col w-full sm:w-1/2">
+        <label for="weight" class="text-slate-600 font-medium mb-1">Weight</label>
         <input 
           type="number" 
           id="weight" 
@@ -15,31 +15,26 @@
           step="0.1" 
           min="0" 
           required
+          class="input input-bordered w-full px-3 py-2 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        <label for="weight">Weight</label>
       </div>
-
-      <div class="field label border s12 m6 l5 fill-space small-margin-top medium-margin-left">
+      <div class="flex flex-col w-full sm:w-1/2">
+        <label for="weight-date" class="text-slate-600 font-medium mb-1">Date</label>
         <input 
           type="date" 
           id="weight-date" 
           name="date" 
           value={new Date().toISOString().split("T")[0]} 
           required
+          class="input input-bordered w-full px-3 py-2 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        <label for="weight-date">Date</label>
       </div>
-      
-      <div class="s12 row middle-align right-align small-margin-top">
-        <button type="submit" class="primary round">
-          <i>add</i>
-          <span>Add Entry</span>
-        </button>
-      </div>
+      <button type="submit" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition-all duration-150">
+        <span>Add</span>
+      </button>
     </div>
+    <div id="submission-message" role="status" class="text-sm text-red-500"></div>
   </form>
-  
-  <div id="submission-message" role="status" class="tertiary-text"></div>
 </div>
 
 <script>
@@ -124,5 +119,3 @@
     });
   });
 </script>
-
-<!-- BeerCSS handles all the styling so we don't need custom CSS -->

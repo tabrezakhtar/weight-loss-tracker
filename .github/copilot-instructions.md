@@ -12,3 +12,4 @@
 ## Chat Behaviour
 - there is no need to explain the changes you have made to the code if in agent mode.  If I ask a question in Ask mode, then please explain.
 - do not run the app to check terminal output.
+- stop using this emoji ⚖️.  I dont like it.
