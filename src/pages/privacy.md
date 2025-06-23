@@ -32,7 +32,7 @@ We do not use cookies for storing your data. However, Mixpanel may use cookies o
 
 - You can clear your weight data at any time by clearing your browser's localStorage.
 - If you wish to opt out of Mixpanel analytics, you can use browser extensions or privacy settings to block analytics scripts.
-- You may reject the cookie notice to opt out of Mixpanel.
+- You may also reject the cookie notice to opt out of Mixpanel.
 
 ## Changes to This Policy
 
