@@ -2,7 +2,7 @@
 
 _Last updated: June 22, 2025_
 
-Welcome to **Simple Weight Tracker**. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your information when you use our website.
+Welcome to **Simple Weight Loss Tracker**. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your information when you use our website.
 
 ## What Data We Collect
 
@@ -44,4 +44,4 @@ If you have any questions about this privacy policy, feel free to contact us usi
 
 ---
 
-Thank you for using Simple Weight Tracker
+Thank you for using Simple Weight Loss Tracker
