@@ -40,7 +40,7 @@ We may update this Privacy Policy from time to time. Changes will be posted on t
 
 ## Contact
 
-If you have any questions about this privacy policy, feel free to contact us at support@simpleweighttracker.com
+If you have any questions about this privacy policy, feel free to contact us using the contact form on [this page](https://www.simpleweightlosstracker.co.uk/contact/).
 
 ---
 
