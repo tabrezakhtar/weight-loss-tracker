@@ -1,0 +1,88 @@
+---
+---
+<div id="cookieAlert" class="fixed bottom-4 right-4 z-50 opacity-0 transition-opacity duration-300 pointer-events-none" data-auto-show="true">
+  <div class="bg-slate-800/90 text-white rounded-lg shadow-lg overflow-hidden w-72 sm:w-80">
+    <div class="flex items-center justify-between px-4 py-2 border-b border-slate-600">
+      <strong class="font-semibold">Cookie Notice 🍪</strong>
+      <button type="button" class="text-white hover:text-gray-300" id="closeBtn">
+        ✕
+      </button>
+    </div>
+    <div class="p-4">
+      <p class="text-sm">Allow cookies on this website?</p>
+      <div class="mt-3 pt-2 border-t border-slate-600 flex justify-end gap-2">
+        <button type="button" id="rejectCookieBtn" class="px-3 py-1 text-sm border border-white hover:bg-slate-700 text-white rounded transition-colors duration-150">
+          Reject
+        </button>
+        <button type="button" id="acceptCookieBtn" class="px-3 py-1 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors duration-150">
+          Accept
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Define function to check and show cookie alert
+  function checkAndShowCookieAlert() {
+    const cookieAlert = document.getElementById("cookieAlert");
+    const acceptCookieBtn = document.getElementById("acceptCookieBtn");
+    const rejectCookieBtn = document.getElementById("rejectCookieBtn");
+    const closeBtn = document.getElementById("closeBtn");
+    
+    if (!cookieAlert) {
+      console.error("Cookie alert element not found");
+      return;
+    }
+    
+    // For debugging - check if localStorage has the consent value
+    console.log("Cookie consent value:", localStorage.getItem("cookieConsent"));
+    
+    // Check if user has already made a choice
+    const cookieConsent = localStorage.getItem("cookieConsent");
+    
+    // Only show the alert if no choice has been made
+    if (!cookieConsent) {
+      console.log("No cookie consent found, showing alert");
+      cookieAlert.classList.add("opacity-100");
+      cookieAlert.classList.remove("pointer-events-none");
+    } else {
+      console.log("Cookie consent found:", cookieConsent);
+    }
+    
+    // Attach event listeners to buttons if they exist
+    if (acceptCookieBtn) acceptCookieBtn.onclick = () => {
+      localStorage.setItem("cookieConsent", "accepted");
+      cookieAlert.classList.remove("opacity-100");
+      cookieAlert.classList.add("pointer-events-none");
+      console.log("Cookie consent accepted");
+      
+      // Enable Mixpanel tracking using global function
+      if (typeof window.loadMixpanelTracking === "function") {
+        window.loadMixpanelTracking();
+      }
+    };
+    
+    if (rejectCookieBtn) rejectCookieBtn.onclick = () => {
+      localStorage.setItem("cookieConsent", "rejected");
+      cookieAlert.classList.remove("opacity-100");
+      cookieAlert.classList.add("pointer-events-none");
+      console.log("Cookie consent rejected");
+    };
+    
+    if (closeBtn) closeBtn.onclick = () => {
+      cookieAlert.classList.remove("opacity-100");
+      cookieAlert.classList.add("pointer-events-none");
+      console.log("Cookie alert closed");
+    };
+  }
+  
+  // Show the cookie alert on window load (most reliable)
+  window.addEventListener("load", () => {
+    // Clear localStorage for testing if needed (remove this in production)
+    // localStorage.removeItem("cookieConsent");
+    
+    // Show cookie alert immediately when page loads
+    checkAndShowCookieAlert();
+  });
+</script>
