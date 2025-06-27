@@ -18,17 +18,23 @@ import Csv from "./Csv.astro";
     const noEntriesMessage = document.getElementById("no-entries-message");
     if (!entriesList || !noEntriesMessage) return;
     
-    // Listen for unit changes to update the display
     window.addEventListener("weightUnitChanged", () => {
       renderEntries();
     });
 
-    const createEntryElement = (entry) => {
+    const createEntryElement = (entry, isNew = false, index = 0) => {
       const listItem = document.createElement("li");
       listItem.dataset.id = entry.id;
-      listItem.className = "flex flex-col sm:flex-row items-center gap-2 bg-stone-50 rounded-lg p-2 sm:p-3 shadow border border-slate-200";
+      listItem.className = "flex flex-col sm:flex-row items-center gap-2 bg-stone-50 rounded-lg p-2 sm:p-3 shadow border border-slate-200 transition-all duration-500 ease-out";
+      
+      if (isNew) {
+        listItem.style.opacity = "0";
+        listItem.style.transform = "translateY(-20px) scale(0.95)";
+      } else {
+        listItem.style.opacity = "0";
+        listItem.style.transform = "translateY(10px)";
+      }
 
-      // Weight input with unit
       const weightDiv = document.createElement("div");
       weightDiv.className = "flex flex-col w-full sm:w-1/3";
       const weightLabel = document.createElement("label");
@@ -43,7 +49,6 @@ import Csv from "./Csv.astro";
       weightDiv.appendChild(weightLabel);
       weightDiv.appendChild(weightInput);
 
-      // Date input
       const dateDiv = document.createElement("div");
       dateDiv.className = "flex flex-col w-full sm:w-1/3";
       const dateLabel = document.createElement("label");
@@ -56,7 +61,6 @@ import Csv from "./Csv.astro";
       dateDiv.appendChild(dateLabel);
       dateDiv.appendChild(dateInput);
 
-      // Actions
       const actionsDiv = document.createElement("div");
       actionsDiv.className = "flex flex-row sm:flex-col gap-2 w-full sm:w-1/3 justify-center sm:justify-end items-center mt-2 sm:mt-0";
       const saveBtn = document.createElement("button");
@@ -95,14 +99,29 @@ import Csv from "./Csv.astro";
       listItem.appendChild(weightDiv);
       listItem.appendChild(dateDiv);
       listItem.appendChild(actionsDiv);
+      
+      if (isNew) {
+        setTimeout(() => {
+          listItem.style.opacity = "1";
+          listItem.style.transform = "translateY(0) scale(1)";
+          setTimeout(() => {
+            listItem.style.backgroundColor = "rgb(248 250 252)";
+          }, 300);
+        }, 10);
+      } else {
+        setTimeout(() => {
+          listItem.style.opacity = "1";
+          listItem.style.transform = "translateY(0)";
+        }, index * 100 + 50);
+      }
+      
       return listItem;
     };
 
-    const renderEntries = () => {
+    const renderEntries = (newEntryId = null) => {
       entriesList.innerHTML = "";
       const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
       entries.sort((a, b) => {
-        // Sort by timestamp in descending order (newest first)
         const timestampA = a.timestamp ? new Date(a.timestamp) : new Date(a.date);
         const timestampB = b.timestamp ? new Date(b.timestamp) : new Date(b.date);
         return timestampB - timestampA;
@@ -113,7 +132,10 @@ import Csv from "./Csv.astro";
       } else {
         noEntriesMessage.style.display = "none";
         entriesList.style.display = "flex";
-        entries.forEach(entry => entriesList.appendChild(createEntryElement(entry)));
+        entries.forEach((entry, index) => {
+          const isNew = entry.id === newEntryId;
+          entriesList.appendChild(createEntryElement(entry, isNew, index));
+        });
       }
     };
 
@@ -132,7 +154,10 @@ import Csv from "./Csv.astro";
       window.dispatchEvent(new CustomEvent("weightEntryDeleted"));
     };
 
-    window.addEventListener("weightEntrySaved", () => renderEntries());
+    window.addEventListener("weightEntrySaved", (event) => {
+      const newEntryId = event.detail ? event.detail.id : null;
+      renderEntries(newEntryId);
+    });
     renderEntries();
   });
 </script>

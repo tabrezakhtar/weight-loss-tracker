@@ -7,48 +7,42 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const exportCsvBtn = document.getElementById("exportCsvBtn");
-    
+
     exportCsvBtn.addEventListener("click", () => {
-      // Get weight entries from localStorage
       const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
-      
+
       if (entries.length === 0) {
         alert("No weight entries to export.");
         return;
       }
-      
-      // Get current unit for filename
+
       const currentUnit = localStorage.getItem("weightUnit") || "kg";
-      
-      // Format data for CSV
+
       const headers = ["Date", `Weight (${currentUnit})`, "Timestamp"];
       const csvRows = [headers.join(",")];
-      
+
       entries.forEach(entry => {
         const date = entry.date;
         const weight = entry.weight;
         const timestamp = entry.timestamp || "";
         csvRows.push(`${date},${weight},${timestamp}`);
       });
-      
+
       const csvString = csvRows.join("\n");
-      
-      // Create a blob and download link
+
       const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
-      
-      // Create and trigger download
+
       const downloadLink = document.createElement("a");
       const currentDate = new Date().toISOString().split("T")[0];
       downloadLink.setAttribute("href", url);
       downloadLink.setAttribute("download", `weight-tracker-data-${currentDate}.csv`);
       downloadLink.style.display = "none";
-      
+
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
-      
-      // Clean up the object URL
+
       setTimeout(() => {
         URL.revokeObjectURL(url);
       }, 100);

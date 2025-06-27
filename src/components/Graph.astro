@@ -18,7 +18,6 @@
   import Chart from "chart.js/auto";
   
   document.addEventListener("DOMContentLoaded", () => {
-    // Elements
     const chartCanvas = document.getElementById("weightChart");
     const noDataMessage = document.getElementById("no-chart-data");
     
@@ -27,54 +26,40 @@
       return;
     }
     
-    // Function to convert hex to RGB
     const hexToRgb = (hex) => {
-      // Remove # if present
       hex = hex.replace(/^#/, "");
-      
-      // Parse the hex values
       const bigint = parseInt(hex, 16);
       const r = (bigint >> 16) & 255;
       const g = (bigint >> 8) & 255;
       const b = bigint & 255;
-      
       return { r, g, b };
     };
     
-    // Chart instance reference
     let weightChart = null;
     
-    // Function to format dates for display on chart
     const formatChartDate = (dateString) => {
       const date = new Date(dateString);
       return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
     };
     
-    // Function to get the current weight unit
     const getCurrentUnit = () => {
       return localStorage.getItem("weightUnit") || "kg";
     };
-
-    // Function to get data from localStorage and prepare it for the chart
+    
     const prepareChartData = () => {
-      // Get weight entries from localStorage
       const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
       
       if (entries.length === 0) {
         return null;
       }
       
-      // Sort entries by date (oldest first for the chart)
       entries.sort((a, b) => new Date(a.date) - new Date(b.date));
       
-      // Prepare data arrays for chart
       const labels = entries.map(entry => formatChartDate(entry.date));
       const weightData = entries.map(entry => parseFloat(entry.weight));
       
-      // Get the current weight unit for the label
       const currentUnit = getCurrentUnit();
       
-      // Primary color
       const primaryColor = "#2196F3";
       const primaryColorRGB = hexToRgb(primaryColor.trim()) || { r: 33, g: 150, b: 243 };
       
@@ -96,22 +81,18 @@
       };
     };
     
-    // Function to create or update the chart
     const updateChart = () => {
       const data = prepareChartData();
       
       if (!data) {
-        // No data available, show message and hide chart
         noDataMessage.style.display = "block";
         chartCanvas.style.display = "none";
         return;
       }
       
-      // Data available, hide message and show chart
       noDataMessage.style.display = "none";
       chartCanvas.style.display = "block";
       
-      // Chart configuration
       const config = {
         type: "line",
         data: data,
@@ -144,13 +125,10 @@
                   const index = items[0].dataIndex;
                   const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
                   if (entries.length <= index) return "";
-                  
-                  // Sort entries as we did for the chart
                   entries.sort((a, b) => new Date(a.date) - new Date(b.date));
                   return new Date(entries[index].date).toLocaleDateString();
                 },
                 label: (item) => {
-                  // Show weight with the current unit in tooltip
                   const currentUnit = getCurrentUnit();
                   return `${item.formattedValue} ${currentUnit}`;
                 }
@@ -164,7 +142,6 @@
         }
       };
       
-      // Create or update chart
       if (weightChart) {
         weightChart.data = data;
         weightChart.update();
@@ -173,30 +150,20 @@
       }
     };
     
-    // Initial chart update
     updateChart();
     
-    // Listen for changes in weight entries
     window.addEventListener("weightEntrySaved", updateChart);
     
-    // Custom event for when entries are deleted (from WeightList)
     window.addEventListener("weightEntryDeleted", updateChart);
     
-    // Listen for unit changes and update the chart
     window.addEventListener("weightUnitChanged", (e) => {
-      console.log("Unit changed to", e.detail.newUnit, "- updating chart");
       if (weightChart) {
-        // Update y-axis title with new unit
         weightChart.options.scales.y.title.text = `Weight (${e.detail.newUnit})`;
-        
-        // Update dataset label with new unit
         if (weightChart.data.datasets.length > 0) {
           weightChart.data.datasets[0].label = `Weight (${e.detail.newUnit})`;
         }
-        
         weightChart.update();
       } else {
-        // If chart hasn't been created yet, call updateChart
         updateChart();
       }
     });
