@@ -37,7 +37,6 @@
           type="date" 
           id="weight-date" 
           name="date" 
-          value={new Date().toISOString().split("T")[0]} 
           required
           class="input input-bordered w-full px-2 sm:px-3 py-1 sm:py-2 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-sm sm:text-base"
         />
@@ -56,11 +55,18 @@
     const messageElement = document.getElementById("submission-message");
     const weightLabel = document.getElementById("weight-label");
     const addButton = document.getElementById("add-button");
+    const dateInput = document.getElementById("weight-date");
     
-    if (!form || !messageElement || !weightLabel || !addButton) {
+    if (!form || !messageElement || !weightLabel || !addButton || !dateInput) {
       console.error("Required DOM elements not found");
       return;
     }
+    
+    const today = new Date();
+    const localDate = new Date(today.getTime() - (today.getTimezoneOffset() * 60000))
+      .toISOString()
+      .split("T")[0];
+    dateInput.value = localDate;
     
     setTimeout(() => {
       addButton.style.animation = "bounce 0.6s ease-in-out 3";
@@ -132,7 +138,11 @@
 
       form.reset();
       
-      dateInput.value = new Date().toISOString().split("T")[0];
+      const today = new Date();
+      const localDate = new Date(today.getTime() - (today.getTimezoneOffset() * 60000))
+        .toISOString()
+        .split("T")[0];
+      dateInput.value = localDate;
       
       const weightEvent = new CustomEvent("weightEntrySaved", {
         detail: savedEntry,
