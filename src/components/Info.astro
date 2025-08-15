@@ -1,7 +1,13 @@
 ---
-import weightComparisons from "../assets/fun_weight_comparisons.json";
-
-interface Props {
+import weightComparisons from "../assets/fun_weight_comparisons.json"          if (comparison) {
+            return ` - that's like losing the equivalent of ${comparison.equivalent}!`;
+          }
+          
+          const nearestComparison = window.weightComparisons.reduce((prev, curr) => 
+            Math.abs(curr.weight - roundedWeightInKg) < Math.abs(prev.weight - roundedWeightInKg) ? curr : prev
+          );
+          
+          return ` - that's like losing the equivalent of ${nearestComparison.equivalent}!`;ace Props {
   class?: string;
 }
 
