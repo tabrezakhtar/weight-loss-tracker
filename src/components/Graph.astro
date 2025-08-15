@@ -194,27 +194,11 @@
     window.addEventListener("weightEntryDeleted", updateChart);
     
     window.addEventListener("weightUnitChanged", (e) => {
-      const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
-      const isExampleData = entries.length === 0;
-      
       if (weightChart) {
-        weightChart.options.scales.y.title.text = `Weight (${e.detail.newUnit})`;
-        
-        if (isExampleData) {
-          const { labels, sineData } = generateSineWaveData();
-          weightChart.data.labels = labels;
-          weightChart.data.datasets[0].data = sineData;
-          weightChart.data.datasets[0].label = `Example Weight (${e.detail.newUnit})`;
-        } else {
-          if (weightChart.data.datasets.length > 0) {
-            weightChart.data.datasets[0].label = `Weight (${e.detail.newUnit})`;
-          }
-        }
-        
-        weightChart.update();
-      } else {
-        updateChart();
+        weightChart.destroy();
+        weightChart = null;
       }
+      updateChart();
     });
   });
 </script>
