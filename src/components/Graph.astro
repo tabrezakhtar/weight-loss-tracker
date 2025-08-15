@@ -194,10 +194,10 @@
     window.addEventListener("weightEntryDeleted", updateChart);
     
     window.addEventListener("weightUnitChanged", (e) => {
+      const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+      const isExampleData = entries.length === 0;
+      
       if (weightChart) {
-        const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
-        const isExampleData = entries.length === 0;
-        
         weightChart.options.scales.y.title.text = `Weight (${e.detail.newUnit})`;
         
         if (isExampleData) {
