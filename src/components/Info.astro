@@ -1,4 +1,6 @@
 ---
+import weightComparisons from "../assets/fun_weight_comparisons.json";
+
 interface Props {
   class?: string;
 }
@@ -15,6 +17,10 @@ const { class: className = "" } = Astro.props;
     </div>
   </div>
 </div>
+
+<script define:vars={{ weightComparisons }}>
+  window.weightComparisons = weightComparisons;
+</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -53,7 +59,31 @@ const { class: className = "" } = Astro.props;
           unitText = numericLoss === 1 ? "stone" : "stones";
         }
         
-        messageElement.textContent = `Congrats! You have lost ${formattedLoss} ${unitText}😄`;
+        const getFunComparison = (weightLossInCurrentUnit, currentUnit) => {
+          let weightInKg = weightLossInCurrentUnit;
+          
+          if (currentUnit === "lbs") {
+            weightInKg = weightLossInCurrentUnit * 0.453592;
+          } else if (currentUnit === "st") {
+            weightInKg = weightLossInCurrentUnit * 6.35029;
+          }
+          
+          const roundedWeightInKg = Math.round(weightInKg);
+          const comparison = window.weightComparisons.find(item => item.weight === roundedWeightInKg);
+          
+          if (comparison) {
+            return `. That's like ${comparison.equivalent}!`;
+          }
+          
+          const nearestComparison = window.weightComparisons.reduce((prev, curr) => 
+            Math.abs(curr.weight - roundedWeightInKg) < Math.abs(prev.weight - roundedWeightInKg) ? curr : prev
+          );
+          
+          return ` - that's like ${nearestComparison.equivalent}!`;
+        };
+        
+        const funMessage = getFunComparison(numericLoss, currentUnit);
+        messageElement.textContent = `Congrats! You have lost ${formattedLoss} ${unitText}${funMessage}`;
         infoElement.classList.remove("hidden");
         infoElement.classList.add("flex");
       } else {
