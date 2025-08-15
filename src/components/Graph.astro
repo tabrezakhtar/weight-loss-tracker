@@ -51,8 +51,8 @@
       const labels = [];
       const sineData = [];
       const currentUnit = getCurrentUnit();
-      const baseWeight = currentUnit === "kg" ? 70 : 154;
-      const amplitude = currentUnit === "kg" ? 5 : 11;
+      const baseWeight = currentUnit === "kg" ? 70 : currentUnit === "lbs" ? 154 : 11;
+      const amplitude = currentUnit === "kg" ? 5 : currentUnit === "lbs" ? 11 : 0.7;
       
       for (let i = 0; i < points; i++) {
         const date = new Date();
@@ -195,10 +195,22 @@
     
     window.addEventListener("weightUnitChanged", (e) => {
       if (weightChart) {
+        const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+        const isExampleData = entries.length === 0;
+        
         weightChart.options.scales.y.title.text = `Weight (${e.detail.newUnit})`;
-        if (weightChart.data.datasets.length > 0) {
-          weightChart.data.datasets[0].label = `Weight (${e.detail.newUnit})`;
+        
+        if (isExampleData) {
+          const { labels, sineData } = generateSineWaveData();
+          weightChart.data.labels = labels;
+          weightChart.data.datasets[0].data = sineData;
+          weightChart.data.datasets[0].label = `Example Weight (${e.detail.newUnit})`;
+        } else {
+          if (weightChart.data.datasets.length > 0) {
+            weightChart.data.datasets[0].label = `Weight (${e.detail.newUnit})`;
+          }
         }
+        
         weightChart.update();
       } else {
         updateChart();
