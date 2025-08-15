@@ -1,0 +1,71 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div id="weight-loss-info" class={`w-full bg-yellow-50 border border-yellow-200 rounded-xl p-3 sm:p-4 md:p-6 flex-col gap-2 ${className} hidden`}>
+  <div class="flex items-start gap-2 sm:gap-3">
+    <span class="text-yellow-600 text-lg sm:text-xl flex-shrink-0">🎉</span>
+    <div class="flex flex-col gap-1 sm:gap-2 text-yellow-800">
+      <p id="weight-loss-message" class="text-sm sm:text-base font-medium"></p>
+      <p class="text-xs sm:text-sm">Keep up the great work!</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const infoElement = document.getElementById("weight-loss-info");
+    const messageElement = document.getElementById("weight-loss-message");
+    
+    if (!infoElement || !messageElement) return;
+    
+    const calculateWeightLoss = () => {
+      const entries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+      
+      if (entries.length < 2) {
+        infoElement.classList.add("hidden");
+        infoElement.classList.remove("flex");
+        return;
+      }
+      
+      entries.sort((a, b) => new Date(a.date) - new Date(b.date));
+      
+      const firstEntry = entries[0];
+      const lastEntry = entries[entries.length - 1];
+      const currentUnit = localStorage.getItem("weightUnit") || "kg";
+      
+      const weightDifference = parseFloat(firstEntry.weight) - parseFloat(lastEntry.weight);
+      
+      if (weightDifference > 0) {
+        const numericLoss = parseFloat(weightDifference.toFixed(1));
+        const formattedLoss = numericLoss % 1 === 0 ? numericLoss.toString() : numericLoss.toFixed(1);
+        
+        let unitText = "";
+        if (currentUnit === "kg") {
+          unitText = numericLoss === 1 ? "kilogram" : "kilograms";
+        } else if (currentUnit === "lbs") {
+          unitText = numericLoss === 1 ? "pound" : "pounds";
+        } else if (currentUnit === "st") {
+          unitText = numericLoss === 1 ? "stone" : "stones";
+        }
+        
+        messageElement.textContent = `Congrats! You have lost ${formattedLoss} ${unitText}😄`;
+        infoElement.classList.remove("hidden");
+        infoElement.classList.add("flex");
+      } else {
+        infoElement.classList.add("hidden");
+        infoElement.classList.remove("flex");
+      }
+    };
+    
+    calculateWeightLoss();
+    
+    window.addEventListener("weightEntrySaved", calculateWeightLoss);
+    window.addEventListener("weightEntryDeleted", calculateWeightLoss);
+    window.addEventListener("weightUnitChanged", calculateWeightLoss);
+  });
+</script>
