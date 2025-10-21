@@ -20,6 +20,8 @@ We use **Mixpanel** to collect anonymous analytics data. This helps us understan
 
 No weight data or personally identifiable information is sent to Mixpanel.
 
+In addition, we use an anonymous hit counter to record visits to the site. This hit counter only logs anonymised visit information and does not collect or store any personally identifiable information; the data is fully anonymised and cannot be traced back to individual users.
+
 ## Data Security
 
 - Your weight data is stored locally in your browser and is never transmitted to our servers.
