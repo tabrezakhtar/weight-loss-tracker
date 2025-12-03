@@ -8,19 +8,10 @@ body {
 
 body {
   position: relative;
-  background-repeat: repeat;
-}
-
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   background-image: url('https://res.cloudinary.com/dx8d5hlk1/image/upload/v1764732188/hoach-le-dinh-c8TWWQ5ZnUw-unsplash_qnk4i4.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  z-index: -1;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
