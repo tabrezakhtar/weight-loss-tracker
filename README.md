@@ -80,16 +80,6 @@ A lightweight, privacy-first weight tracker built with **Astro** and modern ES6 
 - `public/` - static assets
 - `tailwind.config.js` and `src/styles/global.css` - styling
 
-
----
-
-## Developer notes (for contributors)
-
-- Follow the existing component patterns in `src/components/` and keep the folder structure flat.
-- State handling uses Context API (see components that read/write the weight store).
-- Prefer Tailwind classes for styling; avoid inline style attributes.
-- Keep `useEffect` hooks dependency-free unless intentionally re-running.
-
 ---
 
 ## Contact / acknowledgements
