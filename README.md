@@ -5,13 +5,6 @@ A lightweight, privacy-first weight tracker built with **Astro** and modern ES6 
 
 ---
 
-## Quick demo
-
-- Add daily weights, switch units (kg/lb), export CSV, view trend graph, or generate a shareable snapshot link.
-
-
----
-
 ## Features
 
 - Log and edit weight entries quickly (`WeightInput`, `WeightList`).
@@ -96,43 +89,6 @@ A lightweight, privacy-first weight tracker built with **Astro** and modern ES6 
 - State handling uses Context API (see components that read/write the weight store).
 - Prefer Tailwind classes for styling; avoid inline style attributes.
 - Keep `useEffect` hooks dependency-free unless intentionally re-running.
-
-
----
-
-## Privacy & data
-
-- User data is stored locally in the browser (localStorage) and can be exported as CSV. No server-side persistence by default.
-- For details, see `src/pages/privacy.md`.
-
-
----
-
-## Deployment
-
-This is a static site - deploy to any static host (Netlify, Vercel, GitHub Pages).
-
-Example (Vercel):
-
-```bash
-vercel --prod
-```
-
-
----
-
-## Troubleshooting & tips
-
-- If the graph shows no data, ensure entries have valid dates and numeric values.
-- Use CSV import/export to back up or migrate data.
-
-
----
-
-## Contributing & license
-
-Contributions welcome - open an issue or PR. This project is available under the MIT License.
-
 
 ---
 
