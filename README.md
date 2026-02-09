@@ -1,5 +1,7 @@
 # Weight‑Loss Tracker
 
+<p align="center"><img src="https://www.tabrezakhtar.co.uk/assets/img/weightloss.png" alt="Weight-loss tracker screenshot" width="480" /></p>
+
 A lightweight, privacy-first weight tracker built with **Astro** and modern ES6 JavaScript - perfect for logging progress, visualising trends, exporting CSVs, and sharing short, private links.
 
 
