@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weight Tracker Data</title>
+</head>
+<body>
+  <pre id="data"></pre>
+  <script>
+    const weightUnit = localStorage.getItem("weightUnit") || "kg";
+    const weightEntries = JSON.parse(localStorage.getItem("weightEntries") || "[]");
+
+    const data = {
+      weightUnit: weightUnit,
+      weightEntries: weightEntries
+    };
+
+    document.getElementById("data").textContent = JSON.stringify(data, null, 2);
+  </script>
+</body>
+</html>
