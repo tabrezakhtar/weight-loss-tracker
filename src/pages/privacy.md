@@ -1,3 +1,10 @@
+---
+layout: ../layouts/Layout.astro
+title: Privacy Policy | Simple Weight Loss Tracker
+---
+
+<div class="prose-card">
+
 # Privacy Policy
 
 _Last updated: June 22, 2025_
@@ -47,3 +54,5 @@ If you have any questions about this privacy policy, feel free to contact us usi
 ---
 
 Thank you for using Simple Weight Loss Tracker
+
+</div>

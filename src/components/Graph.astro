@@ -2,13 +2,17 @@
 // Graph component - displays weight entries as a line chart using chart.js
 ---
 
-<div class="w-full bg-white rounded-xl border-2 border-slate-200 p-3 sm:p-4 md:p-6 flex flex-col gap-2 sm:gap-4">
-  <h2 class="text-base sm:text-lg md:text-xl font-semibold text-slate-700 flex items-center gap-1 sm:gap-2">📉 Weight Trend</h2>
+<div class="section-card w-full p-4 sm:p-5 md:p-6 flex flex-col gap-3 sm:gap-4">
+  <div class="flex flex-col gap-1">
+    <span class="eyebrow">Progress view</span>
+    <h2 class="display-title text-2xl text-slate-900 sm:text-3xl">📉 Weight Trend</h2>
+    <p class="section-copy text-sm sm:text-base">See how your weight changes over time in one simple view.</p>
+  </div>
   <div class="w-full flex flex-col items-center">
-    <div class="w-full max-w-lg h-[200px] sm:h-[240px] md:h-[280px]">
+    <div class="w-full h-[200px] sm:h-[240px] md:h-[280px] lg:h-[360px] xl:h-[420px]">
       <canvas id="weightChart"></canvas>
     </div>
-    <div id="no-chart-data" class="text-slate-400 py-2 sm:py-4 text-center text-sm sm:text-base hidden">
+    <div id="no-chart-data" class="muted-copy py-2 sm:py-4 text-center text-sm sm:text-base hidden">
       <p>Add weight entries to see your progress chart</p>
     </div>
   </div>
@@ -26,6 +30,8 @@
       return;
     }
     
+    const theme = getComputedStyle(document.documentElement);
+
     const hexToRgb = (hex) => {
       hex = hex.replace(/^#/, "");
       const bigint = parseInt(hex, 16);
@@ -72,7 +78,7 @@
       if (entries.length === 0) {
         const { labels, sineData } = generateSineWaveData();
         const currentUnit = getCurrentUnit();
-        const primaryColor = "#2196F3";
+        const primaryColor = theme.getPropertyValue("--color-accent").trim() || "#2d8f85";
         const primaryColorRGB = hexToRgb(primaryColor.trim()) || { r: 33, g: 150, b: 243 };
         
         return {
@@ -100,7 +106,7 @@
       
       const currentUnit = getCurrentUnit();
       
-      const primaryColor = "#2196F3";
+      const primaryColor = theme.getPropertyValue("--color-accent").trim() || "#2d8f85";
       const primaryColorRGB = hexToRgb(primaryColor.trim()) || { r: 33, g: 150, b: 243 };
       
       return {
@@ -129,6 +135,9 @@
       noDataMessage.style.display = "none";
       chartCanvas.style.display = "block";
       
+      const textColor = theme.getPropertyValue("--color-muted").trim() || "#5d6b79";
+      const lineColor = theme.getPropertyValue("--color-line").trim() || "rgba(16, 32, 51, 0.12)";
+
       const config = {
         type: "line",
         data: data,
@@ -138,14 +147,28 @@
           scales: {
             y: {
               beginAtZero: false,
+              ticks: {
+                color: textColor
+              },
+              grid: {
+                color: lineColor
+              },
               title: {
                 display: true,
+                color: textColor,
                 text: `Weight (${getCurrentUnit()})`
               }
             },
             x: {
+              ticks: {
+                color: textColor
+              },
+              grid: {
+                display: false
+              },
               title: {
                 display: true,
+                color: textColor,
                 text: "Date"
               }
             }
@@ -156,6 +179,11 @@
             },
             tooltip: {
               enabled: !isExampleData,
+              backgroundColor: "rgba(16, 32, 51, 0.92)",
+              titleColor: "#f8fafc",
+              bodyColor: "#f8fafc",
+              borderColor: "rgba(255, 255, 255, 0.08)",
+              borderWidth: 1,
               callbacks: {
                 title: (items) => {
                   if (!items.length) return "";

@@ -1,3 +1,10 @@
+---
+layout: ../layouts/Layout.astro
+title: Terms & Conditions | Simple Weight Loss Tracker
+---
+
+<div class="prose-card">
+
 # Terms & Conditions
 
 **Last Updated: June 23, 2025**
@@ -64,3 +71,5 @@ We reserve the right to modify these terms at any time. We will provide notice o
 If you have any questions about these Terms, please contact us through our [Contact Page](/contact).
 
 Thank you for using Simple Weight Loss Tracker.
+
+</div>

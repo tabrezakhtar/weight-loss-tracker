@@ -8,36 +8,46 @@ import Info from "./Info.astro";
 import Feedback from "./Feedback.astro";
 ---
 
-<div class="flex flex-col items-center justify-center bg-transparent pt-4 pb-2">
-  <div class="w-full max-w-xl mx-auto p-4 sm:p-6 bg-white rounded-2xl flex flex-col gap-4 sm:gap-6">
-    <header class="flex flex-row items-center gap-2 sm:gap-4 justify-center w-full">
-      <img src="/logo.png" alt="Logo" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex-shrink-0" />
-      <div class="flex flex-col items-start flex-1 min-w-0">
-        <h1 class="text-base sm:text-xl md:text-2xl font-bold text-slate-800 flex items-center gap-2 leading-tight">
-          Simple Weight Loss Tracker
-        </h1>
-        <span class="text-xs sm:text-sm md:text-base text-slate-500 text-left block mt-0.5">Track your progress and stay motivated!</span>
+<div class="w-full">
+  <div class="page-frame">
+    <header class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch">
+      <div class="flex h-full flex-col gap-5">
+        <span class="eyebrow">Weight tracking without the noise</span>
+        <div class="flex items-start gap-4 sm:gap-5">
+          <img src="/logo.png" alt="Logo" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex-shrink-0 rounded-[1.4rem] border border-white/70 bg-white/80 p-2 shadow-lg" />
+          <div class="min-w-0">
+            <h1 class="display-title text-4xl leading-none text-slate-900 sm:text-5xl lg:text-6xl">Simple Weight Loss Tracker</h1>
+          </div>
+        </div>
+        <p class="hero-copy max-w-2xl text-sm leading-6 sm:text-base sm:leading-7">A private, browser-based tracker for people who want a clean view of progress, quick check-ins, and simple backup options.</p>
+        <div class="hidden flex-wrap gap-2.5 lg:flex">
+          <span class="hero-badge">Stored locally</span>
+          <span class="hero-badge">No signup</span>
+          <span class="hero-badge">Fast daily updates</span>
+        </div>
       </div>
+      <aside class="metric-card hidden h-full flex-col p-6 sm:p-7 lg:flex">
+        <!-- <div class="metric-label">Overview</div> -->
+        <div class="metric-value mt-3">Track progress simply.</div>
+        <p class="mt-4 max-w-sm text-sm leading-6 text-slate-200/82">Log your weight, view your trend over time, and keep a private record you can export or share whenever you need to.</p>
+      </aside>
     </header>
-    <div class="flex-shrink-0">
-      <Units />
-    </div>
-    <div class="flex-shrink-0">
+
+    <div class="mt-7">
       <Graph />
     </div>
-    <!-- <div class="flex-shrink-0">
-      <Info />
-    </div> -->
-    <div>
+
+    <div class="mt-6 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+      <Units />
       <WeightInput />
     </div>
-    <div>
+
+    <div class="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
       <Share />
-    </div>
-    <div>
       <Feedback />
     </div>
-    <div>
+
+    <div class="mt-6">
       <WeightList />
     </div>
   </div>

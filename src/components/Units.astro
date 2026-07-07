@@ -2,25 +2,29 @@
 import Csv from "./Csv.astro";
 ---
 
-<div class="w-full bg-white rounded-xl border-2 border-slate-200 p-3 sm:p-4 mb-3 sm:mb-6 flex flex-col gap-1 sm:gap-2">
-  <h2 class="text-base sm:text-lg font-semibold text-slate-700 flex items-center gap-1 sm:gap-2">Weight Unit</h2>
+<div class="section-card w-full p-4 sm:p-5 md:p-6 flex flex-col gap-3">
+  <div class="flex flex-col gap-1">
+    <span class="eyebrow">Preferences</span>
+    <h2 class="display-title text-2xl text-slate-900 sm:text-3xl">Weight Unit</h2>
+    <p class="section-copy text-sm sm:text-base">Switch units at any time. Existing entries are converted automatically.</p>
+  </div>
   <div class="flex flex-row items-center justify-between">
     <div class="flex flex-row gap-2 sm:gap-3 flex-wrap">
       <label class="flex items-center cursor-pointer">
         <input type="radio" name="weight-unit" value="kg" class="sr-only peer" checked />
-        <div class="flex items-center justify-center px-4 py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-600 peer-checked:text-white font-medium text-base min-w-[60px]">
+        <div class="flex min-w-[72px] items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all peer-checked:border-transparent peer-checked:bg-[#2d8f85] peer-checked:text-white sm:text-base">
           kg
         </div>
       </label>
       <label class="flex items-center cursor-pointer">
         <input type="radio" name="weight-unit" value="lbs" class="sr-only peer" />
-        <div class="flex items-center justify-center px-4 py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-600 peer-checked:text-white font-medium text-base min-w-[60px]">
+        <div class="flex min-w-[72px] items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all peer-checked:border-transparent peer-checked:bg-[#2d8f85] peer-checked:text-white sm:text-base">
           lbs
         </div>
       </label>
       <label class="flex items-center cursor-pointer">
         <input type="radio" name="weight-unit" value="st" class="sr-only peer" />
-        <div class="flex items-center justify-center px-4 py-2 rounded-lg transition-all bg-slate-100 peer-checked:bg-blue-600 peer-checked:text-white font-medium text-base min-w-[60px]">
+        <div class="flex min-w-[92px] items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all peer-checked:border-transparent peer-checked:bg-[#2d8f85] peer-checked:text-white sm:text-base">
           stones
         </div>
       </label>

@@ -1,33 +1,33 @@
 ---
 ---
 <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
-<button id="generateLinkBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-lg font-semibold transition-all duration-150 flex items-center gap-1 sm:gap-2 cursor-pointer text-xs sm:text-sm">
+<button id="generateLinkBtn" class="ghost-button inline-flex items-center gap-1 text-xs cursor-pointer sm:gap-2 sm:text-sm">
   🔗 Generate Link
 </button>
 
-<div id="shareLinkModal" class="fixed inset-0 z-50 items-center justify-center hidden" style="background: rgba(0,0,0,0.8);">
-  <div class="bg-white rounded-xl p-4 sm:p-6 max-w-md w-full mx-4 shadow-xl">
+<div id="shareLinkModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/70 px-4">
+  <div class="modal-panel w-full max-w-md p-4 sm:p-6">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="text-lg font-semibold text-slate-800">Share Your Data</h3>
-      <button id="closeModalBtn" class="text-slate-500 hover:text-slate-700">✕</button>
+      <h3 class="display-title text-3xl text-slate-900">Share Your Data</h3>
+      <button id="closeModalBtn" class="ghost-button micro-button px-3 text-slate-600">✕</button>
     </div>
-    <p class="text-sm text-slate-600 mb-4">Share this link with others to show your weight tracker data:</p>
+    <p class="section-copy mb-4 text-sm">Share this link with others to show your weight tracker data:</p>
     <div class="flex flex-col gap-4">
-      <div class="flex items-center border border-slate-300 rounded-lg overflow-hidden">
+      <div class="flex items-center overflow-hidden rounded-2xl border border-slate-200 bg-white/90">
         <input 
           type="text" 
           id="shareLink" 
-          class="px-3 py-2 w-full text-sm focus:outline-none text-slate-800" 
+          class="data-mono min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-slate-800 focus:outline-none" 
           readonly
         />
         <button 
           id="copyLinkBtn"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium"
+          class="primary-button rounded-none px-4 py-3 text-sm"
         >
           Copy
         </button>
       </div>
-      <div id="copyMessage" class="text-green-600 text-sm text-center hidden">
+      <div id="copyMessage" class="text-center text-sm text-emerald-700 hidden">
         Link copied to clipboard!
       </div>
     </div>

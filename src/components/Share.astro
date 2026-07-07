@@ -3,13 +3,15 @@ import Csv from "./Csv.astro";
 import GenerateLink from "./GenerateLink.astro";
 ---
 
-<div class="w-full bg-white rounded-xl border-2 border-slate-200 p-3 sm:p-4 md:p-6 mt-2 sm:mt-4 md:mt-6 flex flex-col gap-2 sm:gap-4">
-  <div class="flex flex-row items-center justify-between">
-    <h2 class="text-base sm:text-lg md:text-xl font-semibold text-slate-700 flex items-center gap-1 sm:gap-2">🔗 Backup/Share</h2>
+<div class="section-card w-full p-4 sm:p-5 md:p-6 flex flex-col gap-3 sm:gap-4">
+  <div class="flex flex-col gap-1">
+    <span class="eyebrow">Portability</span>
+    <h2 class="display-title text-2xl text-slate-900 sm:text-3xl">🔗 Backup & Share</h2>
+    <p class="section-copy text-sm sm:text-base">Export a local backup or generate a shareable link without moving away from the tracker.</p>
   </div>
-  <p class="text-sm text-slate-600">Remember to backup your data regularly using the CSV export to avoid losing your progress.</p>
-  <p class="text-sm text-slate-600">To view all your data, <a href="/data" class="text-blue-500 underline">click here</a>.</p>
-  <div class="flex flex-row items-center gap-4 justify-start">
+  <p class="section-copy text-sm sm:text-base">Remember to back up your data regularly using the CSV export to avoid losing your progress.</p>
+  <p class="section-copy text-sm sm:text-base">To view all your data, <a href="/data" class="page-link font-semibold">open the data view</a>.</p>
+  <div class="flex flex-wrap items-center gap-3 justify-start">
     <Csv />
     <GenerateLink />
   </div>

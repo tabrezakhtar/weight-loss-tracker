@@ -2,38 +2,41 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout>
-  <div class="min-h-screen flex flex-col items-center justify-center bg-transparent pt-4 pb-2 overflow-hidden">
-    <div class="w-full max-w-xl mx-auto p-3 sm:p-6 bg-white rounded-2xl flex flex-col gap-4 sm:gap-6 h-full max-h-screen overflow-hidden">
-      <header class="flex flex-col items-center gap-1 sm:gap-2 flex-shrink-0">
-        <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800 flex items-center gap-2">Contact Us</h1>
-        <span class="text-sm sm:text-lg text-slate-500">Any questions, comments or suggestions?</span>
+<Layout title="Contact | Simple Weight Loss Tracker">
+  <div class="page-frame max-w-4xl">
+    <div class="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+      <header class="flex flex-col gap-4">
+        <span class="eyebrow">Contact</span>
+        <h1 class="display-title text-4xl text-slate-900 sm:text-5xl">Any questions, comments, or suggestions?</h1>
       </header>
-      <div class="flex-shrink-0">
+      <div class="section-card p-4 sm:p-6">
+        <header class="mb-6 flex flex-col gap-1">
+          <span class="eyebrow">Message form</span>
+          <h2 class="display-title text-3xl text-slate-900">Contact Us</h2>
+        </header>
         <form name="contact" method="POST" data-netlify="true" class="w-full">
           <div class="flex flex-col gap-6">
-            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-3 sm:mb-4">
-              <div class="flex flex-col w-full sm:w-1/2">
-                <label class="font-semibold text-sm sm:text-base mb-0.5 sm:mb-1" for="yourname">Name</label>
-                <input type="text" name="yourname" id="yourname" required class="text-sm sm:text-base px-2 sm:px-3 py-1.5 sm:py-2 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white" />
+            <div class="flex flex-col gap-3 sm:flex-row sm:gap-4">
+              <div class="flex w-full flex-col sm:w-1/2">
+                <label class="field-label mb-1.5" for="yourname">Name</label>
+                <input type="text" name="yourname" id="yourname" required class="field-input" />
               </div>
-              <div class="flex flex-col w-full sm:w-1/2">
-                <label class="font-semibold text-sm sm:text-base mb-0.5 sm:mb-1" for="email">Email</label>
-                <input type="email" name="email" id="email" required class="text-sm sm:text-base px-2 sm:px-3 py-1.5 sm:py-2 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white" />
+              <div class="flex w-full flex-col sm:w-1/2">
+                <label class="field-label mb-1.5" for="email">Email</label>
+                <input type="email" name="email" id="email" required class="field-input" />
               </div>
             </div>
-            <div class="mb-3 sm:mb-4">
-              <label class="font-semibold text-sm sm:text-base mb-0.5 sm:mb-1" for="message">Message</label>
-              <textarea name="message" id="message" rows="7" sm:rows="10" required class="text-sm sm:text-base px-2 sm:px-3 py-1.5 sm:py-2 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white w-full"></textarea>
+            <div>
+              <label class="field-label mb-1.5 block" for="message">Message</label>
+              <textarea name="message" id="message" rows="8" required class="field-input min-h-44 resize-y"></textarea>
             </div>
-            <div class="text-right">
-              <button class="flex items-center gap-1 sm:gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow transition-all duration-150 text-sm sm:text-base" type="submit">Send</button>
+            <div class="flex items-center justify-between gap-4">
+              <a href="/" class="page-link text-sm font-semibold">← Back</a>
+              <button class="primary-button text-sm" type="submit">Send</button>
             </div>
           </div>
         </form>
-        <div class="mt-4 text-start pt-8">
-          <a href="/" class="underline text-blue-600 hover:text-blue-800">← Back</a>
-        </div>
+      </header>
       </div>
     </div>
   </div>

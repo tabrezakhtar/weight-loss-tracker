@@ -1,6 +1,11 @@
 ---
 import "../styles/global.css";
 import CookieAlert from "../components/CookieAlert.astro";
+
+const {
+  title = "Simple Weight Loss Tracker",
+  description = "Log your weight loss quickly and easily. Data is stored locally in your browser. No signup required!"
+} = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -8,13 +13,13 @@ import CookieAlert from "../components/CookieAlert.astro";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/logo.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content="Log your weight loss quickly and easily. Data is stored locally in your browser.  No signup required!" />
+    <meta name="description" content={description} />
     <meta name="keywords" content="weight loss tracker, weight tracker, weight loss, weight log, weight history, weight management, health tracker, fitness tracker, private" />
-    <title>Simple Weight Loss Tracker</title>
+    <title>{title}</title>
     
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
@@ -42,27 +47,37 @@ import CookieAlert from "../components/CookieAlert.astro";
       }, 500);
     </script>
   </head>
-  <body class="min-h-screen bg-slate-600 flex flex-col font-mono">
-    <main class="flex-1 flex flex-col items-center px-4 sm:px-4 md:px-6 lg:px-8 pt-4 sm:pt-6 md:pt-8 min-h-[calc(100vh-48px)]">
+  <body class="min-h-screen flex flex-col">
+    <main class="flex-1 w-full px-4 py-4 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
       <slot />
     </main>
-    <footer class="w-full max-w-xl mx-auto text-center py-3 px-3 text-slate-400 text-xs sm:text-sm bg-transparent flex flex-col justify-center gap-4 min-h-[48px]">
-      <div class="flex flex-row justify-center gap-4">
-        <a href="/terms" class="underline hover:text-blue-400">Terms & Conditions</a>
-        <a href="/privacy" class="underline hover:text-blue-400">Privacy Policy</a>
-        <a href="/contact" class="underline hover:text-blue-400">Contact</a>
-      </div>
-      <div class="text-center">
-        <span class="text-slate-400 text-xs">© {new Date().getFullYear()} Simple Weight Loss Tracker</span>
-        <div class="text-slate-400 text-xs mt-1">
+    <footer class="app-footer w-full px-4 pb-6 sm:px-6 lg:px-8 lg:pb-8">
+      <div class="page-frame max-w-5xl px-5 py-5 sm:px-6 sm:py-6">
+        <div class="flex flex-col gap-5 text-center sm:text-left sm:flex-row sm:items-end sm:justify-between">
+          <div class="flex flex-col gap-2">
+            <span class="eyebrow">Private by design</span>
+            <p class="max-w-md text-sm sm:text-base hero-copy">Your weight history stays in your browser, so weight tracking stays private, fast, and easy to return to every day.</p>
+          </div>
+          <div class="flex flex-col gap-4 sm:items-end">
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-semibold sm:justify-end">
+              <a href="/terms" class="page-link">Terms & Conditions</a>
+              <a href="/privacy" class="page-link">Privacy Policy</a>
+              <a href="/contact" class="page-link">Contact</a>
+            </div>
+            <div class="text-sm muted-copy">
+              <span>© {new Date().getFullYear()} Simple Weight Loss Tracker</span>
+              <div class="mt-1">
           <a
             href="https://www.melodyapps.co.uk"
-            class="text-slate-400 hover:underline hover:text-blue-400 transition-colors"
+            class="page-link"
             target="_blank"
             rel="noopener noreferrer"
           >
             Made with ❤️ by Melody Apps
           </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
