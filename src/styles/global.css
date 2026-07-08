@@ -29,10 +29,7 @@ body {
   position: relative;
   color: var(--color-ink);
   font-family: var(--font-body);
-  background:
-    radial-gradient(circle at top left, rgba(45, 143, 133, 0.18), transparent 28%),
-    radial-gradient(circle at 85% 18%, rgba(210, 161, 79, 0.18), transparent 20%),
-    linear-gradient(180deg, #eff4f2 0%, #f7f4ef 44%, #eef3ef 100%);
+  background: url("https://res.cloudinary.com/dx8d5hlk1/image/upload/v1783476017/fruit_nqj7o5.jpg") center / cover fixed no-repeat;
 }
 
 body::before,
@@ -84,9 +81,9 @@ a {
   padding: clamp(1.4rem, 2vw, 2.5rem);
   border: 1px solid rgba(255, 255, 255, 0.65);
   border-radius: 2rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(247, 249, 247, 0.7));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(247, 249, 247, 0.56));
   box-shadow: var(--shadow-shell);
-  backdrop-filter: blur(18px);
+  /* backdrop-filter: blur(0px); */
   position: relative;
   z-index: 1;
 }
