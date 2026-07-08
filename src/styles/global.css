@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --font-display: "Roboto", "Segoe UI", sans-serif;
-  --font-body: "Roboto", "Segoe UI", sans-serif;
+  --font-display: "Josefin Sans", "Segoe UI", sans-serif;
+  --font-body: "Josefin Sans", "Segoe UI", sans-serif;
   --font-mono: "Roboto Mono", "Cascadia Code", monospace;
   --color-paper: #f4f3ee;
   --color-paper-soft: rgba(255, 255, 255, 0.76);
