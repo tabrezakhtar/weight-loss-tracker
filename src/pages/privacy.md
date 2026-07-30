@@ -1,58 +1,120 @@
 ---
+
 layout: ../layouts/Layout.astro
 title: Privacy Policy | Simple Weight Loss Tracker
----
+--------------------------------------------------
 
 <div class="prose-card">
 
 # Privacy Policy
 
-_Last updated: June 22, 2025_
+*Last updated: July 30, 2026*
 
-Welcome to **Simple Weight Loss Tracker**. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your information when you use our website.
+Welcome to **Simple Weight Loss Tracker**. Your privacy is important to us. This Privacy Policy explains what information is processed when you use our website and how your data is handled.
 
-## What Data We Collect
+## 1. Weight Data
 
-- **Personal Data:** We do **not** collect or store any personal information such as your name, email address, or contact details.
-- **Weight Data:** All weight entries and related data you enter are stored **only in your browser's localStorage**. This data never leaves your device and is not shared with us or any third parties.
+All weight entries, goals, preferences, and related tracking information that you enter into Simple Weight Loss Tracker are stored **locally in your web browser's `localStorage`**.
 
-## Analytics
+This data is not transmitted to or stored on our servers, and we do not have access to the weight data stored in your browser.
 
-We use **Mixpanel** to collect anonymous analytics data. This helps us understand how users interact with our site so we can improve your experience. Mixpanel may collect information such as:
+We do not send your weight data to third-party analytics or tracking services.
 
-- Pages visited
-- Features used
-- Device and browser type
-- General location (city/country)
+Because your weight tracking data remains on your device, we cannot recover it if it is deleted or lost.
 
-No weight data or personally identifiable information is sent to Mixpanel.
+## 2. Personal Information
 
-In addition, we use an anonymous hit counter to record visits to the site. This hit counter only logs anonymised visit information and does not collect or store any personally identifiable information; the data is fully anonymised and cannot be traced back to individual users.
+You do not need to create an account or provide personal information such as your name or email address to use Simple Weight Loss Tracker.
 
-## Data Security
+If you voluntarily contact us through our [Contact Page](/contact), we may receive the information you choose to provide, such as your name, email address, and the contents of your message. We use this information only to respond to and manage your enquiry.
 
-- Your weight data is stored locally in your browser and is never transmitted to our servers.
-- Analytics data collected by Mixpanel is anonymized and used only for improving the website.
+## 3. Anonymous Visit Counter
 
-## Cookies
-We do not use cookies for storing your data. However, Mixpanel may use cookies or similar technologies to collect usage data as described above.
+We use an **anonymised hit counter** to measure the number of visits to our website and understand overall website traffic.
 
-## Your Choices
+The hit counter is designed to collect only anonymised information and is not used to identify or track individual users.
 
-- You can clear your weight data at any time by clearing your browser's localStorage.
-- If you wish to opt out of Mixpanel analytics, you can use browser extensions or privacy settings to block analytics scripts.
-- You may also reject the cookie notice to opt out of Mixpanel.
+The information is used only for aggregate website statistics, such as understanding how many visits the website receives.
 
-## Changes to This Policy
+## 4. Local Storage
 
-We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date.
+Simple Weight Loss Tracker uses your browser's `localStorage` to store your weight tracking data and preferences.
 
-## Contact
+This information remains on your device until you remove it by clearing your browser data or otherwise deleting the stored data.
 
-If you have any questions about this privacy policy, feel free to contact us using the contact form on [this page](https://www.simpleweightlosstracker.co.uk/contact/).
+You can also export your weight data in CSV format for your own personal backup.
+
+## 5. Cookies
+
+We do not use cookies to store or transmit your weight tracking data.
+
+Our website may use essential technologies required to operate the website correctly. The anonymised hit counter may also use cookies or similar technologies if required for its operation.
+
+Where applicable, you can manage cookies through your browser settings or our Cookie Alert feature.
+
+## 6. How We Use Information
+
+Information processed through the website is used to:
+
+* Provide and operate Simple Weight Loss Tracker
+* Maintain and improve the website
+* Measure overall website usage
+* Respond to enquiries that you voluntarily send to us
+* Maintain the security and reliability of the Service
+
+We do not sell your personal information.
+
+## 7. Third-Party Services
+
+We use a limited number of third-party services to operate the website.
+
+These may include:
+
+* **Website hosting and infrastructure providers** – to deliver and operate the website
+* **Anonymised hit counter** – to measure overall website traffic
+
+Third-party providers may process technical information as necessary to provide their services.
+
+Your weight tracking data is not intentionally transmitted to these services.
+
+## 8. Data Retention
+
+Your weight tracking data remains in your browser's `localStorage` until you delete it or it is otherwise removed from your device.
+
+Any information you voluntarily provide through our Contact Page is retained only for as long as reasonably necessary to respond to and manage your enquiry.
+
+Anonymised statistical information may be retained for as long as necessary for website measurement and improvement.
+
+## 9. Data Security
+
+Your weight tracking data is stored locally on your device and is not stored on our servers.
+
+We take reasonable measures to protect any personal information that you voluntarily provide to us. However, no method of storing or transmitting information over the internet can be guaranteed to be completely secure.
+
+## 10. Your Rights
+
+Where applicable, you may have rights under UK data protection law in relation to personal information that we hold about you, including the right to request access, correction, or deletion of your information.
+
+Because we do not have access to your locally stored weight tracking data, we cannot access, correct, or delete that data on your behalf. You can manage it directly through your browser or the application.
+
+## 11. Children's Privacy
+
+Simple Weight Loss Tracker is intended for users aged 13 and over.
+
+We do not knowingly collect personal information from children under 13.
+
+## 12. Changes to This Privacy Policy
+
+We may update this Privacy Policy from time to time.
+
+When we make changes, we will update the "Last updated" date at the top of this page.
+
+## 13. Contact
+
+If you have any questions about this Privacy Policy or how your information is handled, please contact us through our [Contact Page](/contact).
 
 ---
 
-Thank you for using Simple Weight Loss Tracker
+Thank you for using Simple Weight Loss Tracker.
 
 </div>
