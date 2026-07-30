@@ -1,8 +1,7 @@
 ---
-
 layout: ../layouts/Layout.astro
 title: Terms & Conditions | Simple Weight Loss Tracker
-------------------------------------------------------
+---
 
 <div class="prose-card">
 

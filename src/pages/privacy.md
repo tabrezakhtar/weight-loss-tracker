@@ -1,8 +1,7 @@
 ---
-
 layout: ../layouts/Layout.astro
 title: Privacy Policy | Simple Weight Loss Tracker
---------------------------------------------------
+---
 
 <div class="prose-card">
 
