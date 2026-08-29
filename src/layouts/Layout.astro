@@ -104,7 +104,7 @@ const {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               project: projectName,
-              page: window.location.pathname,
+              page: window.location.href,
             }),
             keepalive: true
           }).catch(function(error) {
